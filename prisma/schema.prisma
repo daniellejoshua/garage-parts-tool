@@ -1,0 +1,140 @@
+// GAP Marketplace Admin — approved schema.
+//
+// Marketplace entities: Car, Parts, Media (baseline migration, applied locally).
+// Vehicle reference catalog: VehicleBrand, VehicleModel (catalog migration).
+// Parts compatibility: PartCompatibility (junction, authoritative source).
+//
+// Parts.compatibility and Parts.images are retained columns only; they are not
+// written and are not authoritative. PartCompatibility is the authoritative
+// compatibility source. Parts.category, Parts.condition, and
+// VehicleModel.production_status enforce their approved value sets via CHECK
+// constraints defined in migration SQL (Prisma datamodel cannot express CHECK
+// constraints). Car.status, Parts.status, and vehicle condition have no CHECK
+// constraints — their value sets are pending and validation is deferred to the
+// application layer.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Car {
+  id              BigInt    @id @default(autoincrement())
+  sellerId        BigInt    @map("seller_id")
+  title           String
+  brand           String
+  model           String
+  year            Int
+  price           Decimal   @db.Decimal(12, 2)
+  originalPrice   Decimal?  @db.Decimal(12, 2) @map("original_price")
+  mileageKm       Int       @map("mileage_km")
+  bodyStyle       String?   @map("body_style")
+  fuelType        String?   @map("fuel_type")
+  transmission    String?
+  condition       String?
+  tag             String?
+  color           String?
+  vin             String?
+  description     String?
+  city            String?
+  location        String?
+  status          String
+  rating          Decimal?  @db.Decimal(3, 1)
+  inspectionScore Int?      @map("inspection_score")
+  publishedAt     DateTime? @db.Timestamptz(6) @map("published_at")
+  soldAt          DateTime? @db.Timestamptz(6) @map("sold_at")
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("cars")
+  @@index([brand, model])
+}
+
+model Parts {
+  id              BigInt               @id @default(autoincrement())
+  title           String
+  category        String
+  brand           String
+  partNumber      String?              @map("part_number")
+  compatibility   String?
+  condition       String
+  quantity        Int                  @default(1)
+  price           Decimal              @db.Decimal(12, 2)
+  originalPrice   Decimal?             @db.Decimal(12, 2) @map("original_price")
+  tag             String?
+  freeShipping    Boolean              @default(false) @map("free_shipping")
+  city            String?
+  location        String?
+  status          String
+  images          String?
+  oemNumber       String?              @map("oem_number")
+  compatibilities PartCompatibility[]
+  createdAt       DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime             @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("parts")
+  @@index([category])
+}
+
+model VehicleBrand {
+  id        BigInt          @id @default(autoincrement())
+  name      String
+  region    String
+  models    VehicleModel[]
+  createdAt DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime        @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("vehicle_brands")
+  @@unique([name])
+  @@index([region])
+}
+
+model VehicleModel {
+  id               BigInt              @id @default(autoincrement())
+  vehicleBrandId   BigInt              @map("vehicle_brand_id")
+  name             String
+  productionStatus String              @map("production_status")
+  brand            VehicleBrand        @relation(fields: [vehicleBrandId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  compatibilities  PartCompatibility[]
+  createdAt        DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime            @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("vehicle_models")
+  @@unique([vehicleBrandId, name])
+}
+
+model PartCompatibility {
+  partId         BigInt       @map("part_id")
+  vehicleModelId BigInt       @map("vehicle_model_id")
+  part           Parts        @relation(fields: [partId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  vehicleModel   VehicleModel @relation(fields: [vehicleModelId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime     @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("part_compatibilities")
+  @@id([partId, vehicleModelId])
+  @@index([vehicleModelId])
+}
+
+model Media {
+  id           BigInt   @id @default(autoincrement())
+  mediableType String   @map("mediable_type")
+  mediableId   BigInt   @map("mediable_id")
+  url          String?
+  type         String?
+  isPrimary    Boolean  @default(false) @map("is_primary")
+  order        Int      @default(0)
+  caption      String?
+  filePath     String?  @map("file_path")
+  fileName     String?  @map("file_name")
+  mimeType     String?  @map("mime_type")
+  sizeBytes    BigInt?  @map("size_bytes")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("media")
+  @@index([mediableType, mediableId])
+}

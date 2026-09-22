@@ -1,0 +1,1129 @@
+{
+  "catalog_meta": {
+    "name": "GAP Marketplace Vehicle Brand/Model Catalog",
+    "research_date": "2026-09-22",
+    "sources": [
+      "Manufacturer official model-lineup pages and vehicle spotlights",
+      "Market reference data and automotive press (2025-2026)"
+    ],
+    "notes": [
+      "The isolated word \u00e2Automobiles\u00e2 after BMW in the original pasted list is treated as branding, not a separate brand.",
+      "Model lists cover current production, discontinued models from approximately 1990 onward, and models relevant to international markets including the Philippines.",
+      "Trims, engines, transmissions, and equipment variants are not separate models.",
+      "production_status is catalog metadata only; it is never added to the Car or Parts entity.",
+      "Entries marked unknown need GAP review before use."
+    ]
+  },
+  "regions": [
+    {
+      "region": "American",
+      "brands": [
+        {
+          "name": "Buick",
+          "models": [
+            { "name": "Enclave", "production_status": "current" },
+            { "name": "Encore", "production_status": "discontinued" },
+            { "name": "Encore GX", "production_status": "current" },
+            { "name": "Envision", "production_status": "current" },
+            { "name": "Envista", "production_status": "current" },
+            { "name": "LaCrosse", "production_status": "discontinued" },
+            { "name": "LeSabre", "production_status": "discontinued" },
+            { "name": "Lucerne", "production_status": "discontinued" },
+            { "name": "Park Avenue", "production_status": "discontinued" },
+            { "name": "Regal", "production_status": "discontinued" },
+            { "name": "Rendezvous", "production_status": "discontinued" },
+            { "name": "Riviera", "production_status": "discontinued" },
+            { "name": "Roadmaster", "production_status": "discontinued" },
+            { "name": "Skylark", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Cadillac",
+          "models": [
+            { "name": "ATS", "production_status": "discontinued" },
+            { "name": "CT4", "production_status": "current" },
+            { "name": "CT5", "production_status": "current" },
+            { "name": "CT6", "production_status": "discontinued" },
+            { "name": "CTS", "production_status": "discontinued" },
+            { "name": "Celestiq", "production_status": "current" },
+            { "name": "DTS", "production_status": "discontinued" },
+            { "name": "Escalade", "production_status": "current" },
+            { "name": "Escalade IQ", "production_status": "current" },
+            { "name": "Fleetwood", "production_status": "discontinued" },
+            { "name": "LYRIQ", "production_status": "current" },
+            { "name": "Optiq", "production_status": "current" },
+            { "name": "SRX", "production_status": "discontinued" },
+            { "name": "XLR", "production_status": "discontinued" },
+            { "name": "XT4", "production_status": "current" },
+            { "name": "XT5", "production_status": "current" },
+            { "name": "XT6", "production_status": "current" },
+            { "name": "XTS", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Chevrolet",
+          "models": [
+            { "name": "Aveo", "production_status": "discontinued" },
+            { "name": "Blazer", "production_status": "current" },
+            { "name": "Bolt EV", "production_status": "discontinued" },
+            { "name": "Bolt EUV", "production_status": "discontinued" },
+            { "name": "Camaro", "production_status": "discontinued" },
+            { "name": "Captiva", "production_status": "discontinued" },
+            { "name": "Colorado", "production_status": "current" },
+            { "name": "Corvette", "production_status": "current" },
+            { "name": "Cruze", "production_status": "discontinued" },
+            { "name": "Equinox", "production_status": "current" },
+            { "name": "Equinox EV", "production_status": "current" },
+            { "name": "Express", "production_status": "current" },
+            { "name": "Impala", "production_status": "discontinued" },
+            { "name": "Malibu", "production_status": "current" },
+            { "name": "Orlando", "production_status": "discontinued" },
+            { "name": "Silverado", "production_status": "current" },
+            { "name": "Silverado EV", "production_status": "current" },
+            { "name": "Sonic", "production_status": "discontinued" },
+            { "name": "Spark", "production_status": "discontinued" },
+            { "name": "Suburban", "production_status": "current" },
+            { "name": "Tahoe", "production_status": "current" },
+            { "name": "Trailblazer", "production_status": "current" },
+            { "name": "Traverse", "production_status": "current" },
+            { "name": "Trax", "production_status": "current" },
+            { "name": "Volt", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Chrysler",
+          "models": [
+            { "name": "200", "production_status": "discontinued" },
+            { "name": "300", "production_status": "discontinued" },
+            { "name": "Aspen", "production_status": "discontinued" },
+            { "name": "Concorde", "production_status": "discontinued" },
+            { "name": "Crossfire", "production_status": "discontinued" },
+            { "name": "Neon", "production_status": "discontinued" },
+            { "name": "Pacifica", "production_status": "current" },
+            { "name": "Sebring", "production_status": "discontinued" },
+            { "name": "Town & Country", "production_status": "discontinued" },
+            { "name": "Voyager", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Dodge",
+          "models": [
+            { "name": "Avenger", "production_status": "discontinued" },
+            { "name": "Caliber", "production_status": "discontinued" },
+            { "name": "Challenger", "production_status": "discontinued" },
+            { "name": "Charger", "production_status": "current" },
+            { "name": "Dart", "production_status": "discontinued" },
+            { "name": "Durango", "production_status": "current" },
+            { "name": "Grand Caravan", "production_status": "current" },
+            { "name": "Hornet", "production_status": "current" },
+            { "name": "Journey", "production_status": "discontinued" },
+            { "name": "Magnum", "production_status": "discontinued" },
+            { "name": "Viper", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Ford",
+          "models": [
+            { "name": "Bronco", "production_status": "current" },
+            { "name": "Bronco Sport", "production_status": "current" },
+            { "name": "Edge", "production_status": "discontinued" },
+            { "name": "EcoSport", "production_status": "discontinued" },
+            { "name": "Escape", "production_status": "current" },
+            { "name": "Escort", "production_status": "discontinued" },
+            { "name": "Everest", "production_status": "current" },
+            { "name": "Expedition", "production_status": "current" },
+            { "name": "Explorer", "production_status": "current" },
+            { "name": "F-150", "production_status": "current" },
+            { "name": "Fiesta", "production_status": "discontinued" },
+            { "name": "Flex", "production_status": "discontinued" },
+            { "name": "Focus", "production_status": "discontinued" },
+            { "name": "Fusion", "production_status": "discontinued" },
+            { "name": "Maverick", "production_status": "current" },
+            { "name": "Mustang", "production_status": "current" },
+            { "name": "Mustang Mach-E", "production_status": "current" },
+            { "name": "Ranger", "production_status": "current" },
+            { "name": "Super Duty", "production_status": "current" },
+            { "name": "Taurus", "production_status": "discontinued" },
+            { "name": "Territory", "production_status": "current" },
+            { "name": "Transit", "production_status": "current" },
+            { "name": "Transit Connect", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "GMC",
+          "models": [
+            { "name": "Acadia", "production_status": "current" },
+            { "name": "Canyon", "production_status": "current" },
+            { "name": "Envoy", "production_status": "discontinued" },
+            { "name": "Hummer EV Pickup", "production_status": "current" },
+            { "name": "Hummer EV SUV", "production_status": "current" },
+            { "name": "Jimmy", "production_status": "discontinued" },
+            { "name": "Savana", "production_status": "current" },
+            { "name": "Sierra", "production_status": "current" },
+            { "name": "Sonoma", "production_status": "discontinued" },
+            { "name": "Terrain", "production_status": "current" },
+            { "name": "Yukon", "production_status": "current" },
+            { "name": "Yukon XL", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Jeep",
+          "models": [
+            { "name": "Cherokee", "production_status": "discontinued" },
+            { "name": "Commander", "production_status": "discontinued" },
+            { "name": "Compass", "production_status": "current" },
+            { "name": "Gladiator", "production_status": "current" },
+            { "name": "Grand Cherokee", "production_status": "current" },
+            { "name": "Grand Wagoneer", "production_status": "current" },
+            { "name": "Liberty", "production_status": "discontinued" },
+            { "name": "Patriot", "production_status": "discontinued" },
+            { "name": "Renegade", "production_status": "current" },
+            { "name": "Wagoneer", "production_status": "current" },
+            { "name": "Wrangler", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Lincoln",
+          "models": [
+            { "name": "Aviator", "production_status": "current" },
+            { "name": "Continental", "production_status": "discontinued" },
+            { "name": "Corsair", "production_status": "current" },
+            { "name": "MKZ", "production_status": "discontinued" },
+            { "name": "Navigator", "production_status": "current" },
+            { "name": "Nautilus", "production_status": "current" },
+            { "name": "Town Car", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Lucid Motors",
+          "models": [
+            { "name": "Air", "production_status": "current" },
+            { "name": "Gravity", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Ram",
+          "models": [
+            { "name": "1500", "production_status": "current" },
+            { "name": "2500", "production_status": "current" },
+            { "name": "3500", "production_status": "current" },
+            { "name": "4500", "production_status": "current" },
+            { "name": "5500", "production_status": "current" },
+            { "name": "ProMaster", "production_status": "current" },
+            { "name": "ProMaster City", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Rivian",
+          "models": [
+            { "name": "R1T", "production_status": "current" },
+            { "name": "R1S", "production_status": "current" },
+            { "name": "R2", "production_status": "unknown" },
+            { "name": "R3", "production_status": "unknown" }
+          ]
+        },
+        {
+          "name": "Tesla",
+          "models": [
+            { "name": "Cybertruck", "production_status": "current" },
+            { "name": "Model 3", "production_status": "current" },
+            { "name": "Model S", "production_status": "current" },
+            { "name": "Model X", "production_status": "current" },
+            { "name": "Model Y", "production_status": "current" },
+            { "name": "Roadster", "production_status": "discontinued" },
+            { "name": "Semi", "production_status": "unknown" }
+          ]
+        },
+        {
+          "name": "Vanderhall Motor Works",
+          "models": [
+            { "name": "Brawley", "production_status": "current" },
+            { "name": "Carmel", "production_status": "current" },
+            { "name": "Edison 2", "production_status": "discontinued" },
+            { "name": "Laguna", "production_status": "discontinued" },
+            { "name": "Santarosa", "production_status": "current" },
+            { "name": "Venice", "production_status": "current" }
+          ]
+        }
+      ]
+    },
+    {
+      "region": "European",
+      "brands": [
+        {
+          "name": "Alfa Romeo",
+          "models": [
+            { "name": "4C", "production_status": "discontinued" },
+            { "name": "145", "production_status": "discontinued" },
+            { "name": "146", "production_status": "discontinued" },
+            { "name": "155", "production_status": "discontinued" },
+            { "name": "156", "production_status": "discontinued" },
+            { "name": "159", "production_status": "discontinued" },
+            { "name": "164", "production_status": "discontinued" },
+            { "name": "166", "production_status": "discontinued" },
+            { "name": "Brera", "production_status": "discontinued" },
+            { "name": "Giulia", "production_status": "current" },
+            { "name": "Giulietta", "production_status": "discontinued" },
+            { "name": "Junior", "production_status": "current" },
+            { "name": "MiTo", "production_status": "discontinued" },
+            { "name": "Spider", "production_status": "discontinued" },
+            { "name": "Stelvio", "production_status": "current" },
+            { "name": "Tonale", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Alpine",
+          "models": [
+            { "name": "A110", "production_status": "current" },
+            { "name": "A290", "production_status": "current" },
+            { "name": "A310", "production_status": "unknown" },
+            { "name": "A390", "production_status": "unknown" }
+          ]
+        },
+        {
+          "name": "Aston Martin",
+          "models": [
+            { "name": "DB11", "production_status": "discontinued" },
+            { "name": "DB12", "production_status": "current" },
+            { "name": "DB9", "production_status": "discontinued" },
+            { "name": "DBX", "production_status": "current" },
+            { "name": "DBS", "production_status": "discontinued" },
+            { "name": "Rapide", "production_status": "discontinued" },
+            { "name": "Valhalla", "production_status": "current" },
+            { "name": "Valour", "production_status": "current" },
+            { "name": "Vanquish", "production_status": "current" },
+            { "name": "Vantage", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Audi",
+          "models": [
+            { "name": "80", "production_status": "discontinued" },
+            { "name": "90", "production_status": "discontinued" },
+            { "name": "100", "production_status": "discontinued" },
+            { "name": "200", "production_status": "discontinued" },
+            { "name": "A1", "production_status": "discontinued" },
+            { "name": "A2", "production_status": "discontinued" },
+            { "name": "A3", "production_status": "current" },
+            { "name": "A4", "production_status": "current" },
+            { "name": "A5", "production_status": "current" },
+            { "name": "A6", "production_status": "current" },
+            { "name": "A7", "production_status": "current" },
+            { "name": "A8", "production_status": "current" },
+            { "name": "e-tron GT", "production_status": "current" },
+            { "name": "Q2", "production_status": "discontinued" },
+            { "name": "Q3", "production_status": "current" },
+            { "name": "Q4 e-tron", "production_status": "current" },
+            { "name": "Q5", "production_status": "current" },
+            { "name": "Q6 e-tron", "production_status": "current" },
+            { "name": "Q7", "production_status": "current" },
+            { "name": "Q8", "production_status": "current" },
+            { "name": "Q8 e-tron", "production_status": "current" },
+            { "name": "R8", "production_status": "discontinued" },
+            { "name": "TT", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Bentley",
+          "models": [
+            { "name": "Arnage", "production_status": "discontinued" },
+            { "name": "Azure", "production_status": "discontinued" },
+            { "name": "Bentayga", "production_status": "current" },
+            { "name": "Continental GT", "production_status": "current" },
+            { "name": "Flying Spur", "production_status": "current" },
+            { "name": "Mulsanne", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "BMW",
+          "models": [
+            { "name": "1 Series", "production_status": "current" },
+            { "name": "2 Series", "production_status": "current" },
+            { "name": "3 Series", "production_status": "current" },
+            { "name": "4 Series", "production_status": "current" },
+            { "name": "5 Series", "production_status": "current" },
+            { "name": "6 Series", "production_status": "discontinued" },
+            { "name": "7 Series", "production_status": "current" },
+            { "name": "8 Series", "production_status": "unknown" },
+            { "name": "i3", "production_status": "discontinued" },
+            { "name": "i4", "production_status": "current" },
+            { "name": "i5", "production_status": "current" },
+            { "name": "i7", "production_status": "current" },
+            { "name": "i8", "production_status": "discontinued" },
+            { "name": "iX", "production_status": "current" },
+            { "name": "iX1", "production_status": "current" },
+            { "name": "iX2", "production_status": "current" },
+            { "name": "iX3", "production_status": "unknown" },
+            { "name": "M1", "production_status": "discontinued" },
+            { "name": "X1", "production_status": "current" },
+            { "name": "X2", "production_status": "current" },
+            { "name": "X3", "production_status": "current" },
+            { "name": "X4", "production_status": "current" },
+            { "name": "X5", "production_status": "current" },
+            { "name": "X6", "production_status": "current" },
+            { "name": "X7", "production_status": "current" },
+            { "name": "XM", "production_status": "current" },
+            { "name": "Z1", "production_status": "discontinued" },
+            { "name": "Z4", "production_status": "current" },
+            { "name": "Z8", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Ferrari",
+          "models": [
+            { "name": "12Cilindri", "production_status": "current" },
+            { "name": "296 GTB", "production_status": "current" },
+            { "name": "296 GTS", "production_status": "current" },
+            { "name": "488", "production_status": "discontinued" },
+            { "name": "812 Superfast", "production_status": "discontinued" },
+            { "name": "Enzo", "production_status": "discontinued" },
+            { "name": "F40", "production_status": "discontinued" },
+            { "name": "F50", "production_status": "discontinued" },
+            { "name": "F8 Tributo", "production_status": "discontinued" },
+            { "name": "FF", "production_status": "discontinued" },
+            { "name": "GTC4Lusso", "production_status": "discontinued" },
+            { "name": "LaFerrari", "production_status": "discontinued" },
+            { "name": "Purosangue", "production_status": "current" },
+            { "name": "Portofino", "production_status": "discontinued" },
+            { "name": "Roma", "production_status": "current" },
+            { "name": "SF90 Stradale", "production_status": "current" },
+            { "name": "SF90 Spider", "production_status": "current" },
+            { "name": "F80", "production_status": "current" },
+            { "name": "458", "production_status": "discontinued" },
+            { "name": "California", "production_status": "discontinued" },
+            { "name": "Testarossa", "production_status": "discontinued" },
+            { "name": "599", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Fiat",
+          "models": [
+            { "name": "500", "production_status": "current" },
+            { "name": "500L", "production_status": "discontinued" },
+            { "name": "500X", "production_status": "discontinued" },
+            { "name": "Bravo", "production_status": "discontinued" },
+            { "name": "Idea", "production_status": "discontinued" },
+            { "name": "Linea", "production_status": "discontinued" },
+            { "name": "Multipla", "production_status": "discontinued" },
+            { "name": "Palio", "production_status": "discontinued" },
+            { "name": "Panda", "production_status": "current" },
+            { "name": "Punto", "production_status": "discontinued" },
+            { "name": "Siena", "production_status": "discontinued" },
+            { "name": "Stilo", "production_status": "discontinued" },
+            { "name": "Tipo", "production_status": "current" },
+            { "name": "Uno", "production_status": "unknown" }
+          ]
+        },
+        {
+          "name": "Jaguar",
+          "models": [
+            { "name": "E-Pace", "production_status": "discontinued" },
+            { "name": "F-Pace", "production_status": "current" },
+            { "name": "F-Type", "production_status": "discontinued" },
+            { "name": "I-Pace", "production_status": "unknown" },
+            { "name": "X-Type", "production_status": "discontinued" },
+            { "name": "XE", "production_status": "discontinued" },
+            { "name": "XF", "production_status": "discontinued" },
+            { "name": "XJ", "production_status": "discontinued" },
+            { "name": "XK", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Koenigsegg",
+          "models": [
+            { "name": "Agera", "production_status": "discontinued" },
+            { "name": "CC8S", "production_status": "discontinued" },
+            { "name": "CCR", "production_status": "discontinued" },
+            { "name": "CCX", "production_status": "discontinued" },
+            { "name": "CCXR", "production_status": "discontinued" },
+            { "name": "Gemera", "production_status": "current" },
+            { "name": "Jesko", "production_status": "current" },
+            { "name": "One:1", "production_status": "discontinued" },
+            { "name": "Regera", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Lamborghini",
+          "models": [
+            { "name": "Aventador", "production_status": "discontinued" },
+            { "name": "Diablo", "production_status": "discontinued" },
+            { "name": "Gallardo", "production_status": "discontinued" },
+            { "name": "Huracan", "production_status": "unknown" },
+            { "name": "Murcielago", "production_status": "discontinued" },
+            { "name": "Revuelto", "production_status": "current" },
+            { "name": "Temerario", "production_status": "current" },
+            { "name": "Urus", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Land Rover",
+          "models": [
+            { "name": "Defender", "production_status": "current" },
+            { "name": "Discovery", "production_status": "current" },
+            { "name": "Discovery Sport", "production_status": "current" },
+            { "name": "Freelander", "production_status": "discontinued" },
+            { "name": "Range Rover", "production_status": "current" },
+            { "name": "Range Rover Evoque", "production_status": "current" },
+            { "name": "Range Rover Sport", "production_status": "current" },
+            { "name": "Range Rover Velar", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Lotus",
+          "models": [
+            { "name": "Elan", "production_status": "discontinued" },
+            { "name": "Elise", "production_status": "discontinued" },
+            { "name": "Eletre", "production_status": "current" },
+            { "name": "Emeya", "production_status": "current" },
+            { "name": "Emira", "production_status": "current" },
+            { "name": "Esprit", "production_status": "discontinued" },
+            { "name": "Evija", "production_status": "current" },
+            { "name": "Evora", "production_status": "discontinued" },
+            { "name": "Exige", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Maserati",
+          "models": [
+            { "name": "Ghibli", "production_status": "discontinued" },
+            { "name": "GranCabrio", "production_status": "current" },
+            { "name": "GranTurismo", "production_status": "current" },
+            { "name": "Grecale", "production_status": "current" },
+            { "name": "Levante", "production_status": "discontinued" },
+            { "name": "MC20", "production_status": "current" },
+            { "name": "Quattroporte", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "McLaren",
+          "models": [
+            { "name": "570S", "production_status": "discontinued" },
+            { "name": "600LT", "production_status": "discontinued" },
+            { "name": "650S", "production_status": "discontinued" },
+            { "name": "720S", "production_status": "discontinued" },
+            { "name": "750S", "production_status": "current" },
+            { "name": "765LT", "production_status": "discontinued" },
+            { "name": "Artura", "production_status": "current" },
+            { "name": "F1", "production_status": "discontinued" },
+            { "name": "GT", "production_status": "discontinued" },
+            { "name": "GTS", "production_status": "current" },
+            { "name": "MP4-12C", "production_status": "discontinued" },
+            { "name": "P1", "production_status": "discontinued" },
+            { "name": "Senna", "production_status": "discontinued" },
+            { "name": "Speedtail", "production_status": "discontinued" },
+            { "name": "W1", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Mercedes-Benz",
+          "models": [
+            { "name": "190E", "production_status": "discontinued" },
+            { "name": "A-Class", "production_status": "unknown" },
+            { "name": "AMG GT", "production_status": "current" },
+            { "name": "B-Class", "production_status": "discontinued" },
+            { "name": "C-Class", "production_status": "current" },
+            { "name": "CLA", "production_status": "current" },
+            { "name": "CLE", "production_status": "current" },
+            { "name": "CLS", "production_status": "discontinued" },
+            { "name": "E-Class", "production_status": "current" },
+            { "name": "EQA", "production_status": "current" },
+            { "name": "EQB", "production_status": "current" },
+            { "name": "EQC", "production_status": "discontinued" },
+            { "name": "EQE", "production_status": "current" },
+            { "name": "EQE SUV", "production_status": "current" },
+            { "name": "EQS", "production_status": "current" },
+            { "name": "EQS SUV", "production_status": "current" },
+            { "name": "EQV", "production_status": "current" },
+            { "name": "G-Class", "production_status": "current" },
+            { "name": "GLA", "production_status": "current" },
+            { "name": "GLB", "production_status": "current" },
+            { "name": "GLC", "production_status": "current" },
+            { "name": "GLE", "production_status": "current" },
+            { "name": "GLS", "production_status": "current" },
+            { "name": "ML", "production_status": "discontinued" },
+            { "name": "R-Class", "production_status": "discontinued" },
+            { "name": "S-Class", "production_status": "current" },
+            { "name": "SL", "production_status": "current" },
+            { "name": "SLC", "production_status": "discontinued" },
+            { "name": "SLK", "production_status": "discontinued" },
+            { "name": "SLS AMG", "production_status": "discontinued" },
+            { "name": "V-Class", "production_status": "current" },
+            { "name": "X-Class", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "MINI",
+          "models": [
+            { "name": "3-Door Hatch", "production_status": "current" },
+            { "name": "5-Door Hatch", "production_status": "current" },
+            { "name": "Aceman", "production_status": "current" },
+            { "name": "Clubman", "production_status": "discontinued" },
+            { "name": "Convertible", "production_status": "current" },
+            { "name": "Countryman", "production_status": "current" },
+            { "name": "Coupe", "production_status": "discontinued" },
+            { "name": "Paceman", "production_status": "discontinued" },
+            { "name": "Roadster", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Opel",
+          "models": [
+            { "name": "Adam", "production_status": "discontinued" },
+            { "name": "Agila", "production_status": "discontinued" },
+            { "name": "Antara", "production_status": "discontinued" },
+            { "name": "Astra", "production_status": "current" },
+            { "name": "Calibra", "production_status": "discontinued" },
+            { "name": "Cascada", "production_status": "discontinued" },
+            { "name": "Combo", "production_status": "current" },
+            { "name": "Corsa", "production_status": "current" },
+            { "name": "Crossland", "production_status": "current" },
+            { "name": "Grandland", "production_status": "current" },
+            { "name": "Insignia", "production_status": "discontinued" },
+            { "name": "Karl", "production_status": "discontinued" },
+            { "name": "Meriva", "production_status": "discontinued" },
+            { "name": "Mokka", "production_status": "current" },
+            { "name": "Monterey", "production_status": "discontinued" },
+            { "name": "Omega", "production_status": "discontinued" },
+            { "name": "Tigra", "production_status": "discontinued" },
+            { "name": "Vectra", "production_status": "discontinued" },
+            { "name": "Vivaro", "production_status": "current" },
+            { "name": "Zafira", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Pagani",
+          "models": [
+            { "name": "Huayra", "production_status": "discontinued" },
+            { "name": "Utopia", "production_status": "current" },
+            { "name": "Zonda", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Peugeot",
+          "models": [
+            { "name": "106", "production_status": "discontinued" },
+            { "name": "107", "production_status": "discontinued" },
+            { "name": "108", "production_status": "discontinued" },
+            { "name": "205", "production_status": "discontinued" },
+            { "name": "206", "production_status": "discontinued" },
+            { "name": "207", "production_status": "discontinued" },
+            { "name": "208", "production_status": "current" },
+            { "name": "2008", "production_status": "current" },
+            { "name": "3008", "production_status": "current" },
+            { "name": "306", "production_status": "discontinued" },
+            { "name": "307", "production_status": "discontinued" },
+            { "name": "308", "production_status": "current" },
+            { "name": "405", "production_status": "discontinued" },
+            { "name": "406", "production_status": "discontinued" },
+            { "name": "407", "production_status": "discontinued" },
+            { "name": "408", "production_status": "current" },
+            { "name": "5008", "production_status": "current" },
+            { "name": "508", "production_status": "current" },
+            { "name": "605", "production_status": "discontinued" },
+            { "name": "607", "production_status": "discontinued" },
+            { "name": "807", "production_status": "discontinued" },
+            { "name": "1007", "production_status": "discontinued" },
+            { "name": "4007", "production_status": "discontinued" },
+            { "name": "4008", "production_status": "discontinued" },
+            { "name": "Partner", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Polestar",
+          "models": [
+            { "name": "1", "production_status": "discontinued" },
+            { "name": "2", "production_status": "current" },
+            { "name": "3", "production_status": "current" },
+            { "name": "4", "production_status": "current" },
+            { "name": "5", "production_status": "unknown" },
+            { "name": "6", "production_status": "unknown" }
+          ]
+        },
+        {
+          "name": "Porsche",
+          "models": [
+            { "name": "356", "production_status": "discontinued" },
+            { "name": "718 Boxster", "production_status": "current" },
+            { "name": "718 Cayman", "production_status": "current" },
+            { "name": "911", "production_status": "current" },
+            { "name": "914", "production_status": "discontinued" },
+            { "name": "918 Spyder", "production_status": "discontinued" },
+            { "name": "924", "production_status": "discontinued" },
+            { "name": "928", "production_status": "discontinued" },
+            { "name": "944", "production_status": "discontinued" },
+            { "name": "959", "production_status": "discontinued" },
+            { "name": "964", "production_status": "discontinued" },
+            { "name": "968", "production_status": "discontinued" },
+            { "name": "Carrera GT", "production_status": "discontinued" },
+            { "name": "Cayenne", "production_status": "current" },
+            { "name": "Macan", "production_status": "current" },
+            { "name": "Panamera", "production_status": "current" },
+            { "name": "Taycan", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Renault",
+          "models": [
+            { "name": "Arkana", "production_status": "current" },
+            { "name": "Austral", "production_status": "current" },
+            { "name": "Captur", "production_status": "current" },
+            { "name": "Clio", "production_status": "current" },
+            { "name": "Duster", "production_status": "unknown" },
+            { "name": "Espace", "production_status": "current" },
+            { "name": "Fluence", "production_status": "discontinued" },
+            { "name": "Kadjar", "production_status": "discontinued" },
+            { "name": "Kangoo", "production_status": "current" },
+            { "name": "Koleos", "production_status": "discontinued" },
+            { "name": "Megane", "production_status": "current" },
+            { "name": "Scenic", "production_status": "current" },
+            { "name": "Talisman", "production_status": "discontinued" },
+            { "name": "Twingo", "production_status": "discontinued" },
+            { "name": "Zoe", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Rimac",
+          "models": [
+            { "name": "Concept One", "production_status": "discontinued" },
+            { "name": "Concept Two", "production_status": "discontinued" },
+            { "name": "Nevera", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Rolls-Royce",
+          "models": [
+            { "name": "Corniche", "production_status": "discontinued" },
+            { "name": "Cullinan", "production_status": "current" },
+            { "name": "Dawn", "production_status": "discontinued" },
+            { "name": "Ghost", "production_status": "current" },
+            { "name": "Phantom", "production_status": "current" },
+            { "name": "Spectre", "production_status": "current" },
+            { "name": "Wraith", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Volkswagen",
+          "models": [
+            { "name": "Amarok", "production_status": "current" },
+            { "name": "Arteon", "production_status": "discontinued" },
+            { "name": "Beetle", "production_status": "discontinued" },
+            { "name": "Caddy", "production_status": "current" },
+            { "name": "CC", "production_status": "discontinued" },
+            { "name": "Crafter", "production_status": "current" },
+            { "name": "Eos", "production_status": "discontinued" },
+            { "name": "Golf", "production_status": "current" },
+            { "name": "ID.3", "production_status": "current" },
+            { "name": "ID.4", "production_status": "current" },
+            { "name": "ID.5", "production_status": "current" },
+            { "name": "ID.7", "production_status": "current" },
+            { "name": "ID.Buzz", "production_status": "current" },
+            { "name": "Jetta", "production_status": "current" },
+            { "name": "Multivan", "production_status": "current" },
+            { "name": "Phaeton", "production_status": "discontinued" },
+            { "name": "Polo", "production_status": "current" },
+            { "name": "Santana", "production_status": "discontinued" },
+            { "name": "Scirocco", "production_status": "discontinued" },
+            { "name": "Sharan", "production_status": "discontinued" },
+            { "name": "Taos", "production_status": "current" },
+            { "name": "T-Cross", "production_status": "current" },
+            { "name": "Teramont", "production_status": "unknown" },
+            { "name": "Tiguan", "production_status": "current" },
+            { "name": "Touareg", "production_status": "current" },
+            { "name": "Touran", "production_status": "discontinued" },
+            { "name": "Transporter", "production_status": "current" },
+            { "name": "T-Roc", "production_status": "current" },
+            { "name": "Up", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Volvo",
+          "models": [
+            { "name": "C30", "production_status": "discontinued" },
+            { "name": "C70", "production_status": "discontinued" },
+            { "name": "EC40", "production_status": "current" },
+            { "name": "ES90", "production_status": "current" },
+            { "name": "EX30", "production_status": "current" },
+            { "name": "EX90", "production_status": "current" },
+            { "name": "S40", "production_status": "discontinued" },
+            { "name": "S60", "production_status": "current" },
+            { "name": "S70", "production_status": "discontinued" },
+            { "name": "S80", "production_status": "discontinued" },
+            { "name": "S90", "production_status": "current" },
+            { "name": "V40", "production_status": "discontinued" },
+            { "name": "V60", "production_status": "current" },
+            { "name": "V70", "production_status": "discontinued" },
+            { "name": "V90", "production_status": "current" },
+            { "name": "XC40", "production_status": "current" },
+            { "name": "XC60", "production_status": "current" },
+            { "name": "XC70", "production_status": "discontinued" },
+            { "name": "XC90", "production_status": "current" },
+            { "name": "850", "production_status": "discontinued" },
+            { "name": "940", "production_status": "discontinued" },
+            { "name": "960", "production_status": "discontinued" }
+          ]
+        }
+      ]
+    },
+    {
+      "region": "Japanese",
+      "brands": [
+        {
+          "name": "Acura",
+          "models": [
+            { "name": "ADX", "production_status": "current" },
+            { "name": "CL", "production_status": "discontinued" },
+            { "name": "CLX", "production_status": "discontinued" },
+            { "name": "EL", "production_status": "discontinued" },
+            { "name": "ILX", "production_status": "discontinued" },
+            { "name": "Integra", "production_status": "current" },
+            { "name": "Legend", "production_status": "discontinued" },
+            { "name": "MDX", "production_status": "current" },
+            { "name": "NSX", "production_status": "discontinued" },
+            { "name": "RDX", "production_status": "current" },
+            { "name": "RL", "production_status": "discontinued" },
+            { "name": "RLX", "production_status": "discontinued" },
+            { "name": "RSX", "production_status": "discontinued" },
+            { "name": "TL", "production_status": "discontinued" },
+            { "name": "TLX", "production_status": "current" },
+            { "name": "TSX", "production_status": "discontinued" },
+            { "name": "Vigor", "production_status": "discontinued" },
+            { "name": "ZDX", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Daihatsu",
+          "models": [
+            { "name": "Applause", "production_status": "discontinued" },
+            { "name": "Ayla", "production_status": "current" },
+            { "name": "Boon", "production_status": "current" },
+            { "name": "Cast", "production_status": "discontinued" },
+            { "name": "Charade", "production_status": "discontinued" },
+            { "name": "Copen", "production_status": "discontinued" },
+            { "name": "e:S", "production_status": "discontinued" },
+            { "name": "Hijet", "production_status": "current" },
+            { "name": "Materia", "production_status": "discontinued" },
+            { "name": "Mira", "production_status": "current" },
+            { "name": "Move", "production_status": "current" },
+            { "name": "Rocky", "production_status": "current" },
+            { "name": "Sirion", "production_status": "discontinued" },
+            { "name": "Tanto", "production_status": "current" },
+            { "name": "Taruna", "production_status": "discontinued" },
+            { "name": "Terios", "production_status": "current" },
+            { "name": "Thor", "production_status": "discontinued" },
+            { "name": "Trevis", "production_status": "discontinued" },
+            { "name": "Wake", "production_status": "discontinued" },
+            { "name": "Xenia", "production_status": "current" },
+            { "name": "YRV", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Honda",
+          "models": [
+            { "name": "Accord", "production_status": "current" },
+            { "name": "BR-V", "production_status": "current" },
+            { "name": "Brio", "production_status": "current" },
+            { "name": "City", "production_status": "current" },
+            { "name": "Civic", "production_status": "current" },
+            { "name": "Clarity", "production_status": "discontinued" },
+            { "name": "CR-V", "production_status": "current" },
+            { "name": "CR-Z", "production_status": "discontinued" },
+            { "name": "Crosstour", "production_status": "discontinued" },
+            { "name": "Element", "production_status": "discontinued" },
+            { "name": "Fit", "production_status": "unknown" },
+            { "name": "HR-V", "production_status": "current" },
+            { "name": "Insight", "production_status": "discontinued" },
+            { "name": "Integra", "production_status": "discontinued" },
+            { "name": "Jazz", "production_status": "discontinued" },
+            { "name": "Legend", "production_status": "discontinued" },
+            { "name": "NSX", "production_status": "discontinued" },
+            { "name": "Odyssey", "production_status": "discontinued" },
+            { "name": "Passport", "production_status": "current" },
+            { "name": "Pilot", "production_status": "current" },
+            { "name": "Prelude", "production_status": "unknown" },
+            { "name": "Ridgeline", "production_status": "current" },
+            { "name": "S2000", "production_status": "discontinued" },
+            { "name": "WR-V", "production_status": "current" },
+            { "name": "ZR-V", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Infiniti",
+          "models": [
+            { "name": "EX", "production_status": "discontinued" },
+            { "name": "FX", "production_status": "discontinued" },
+            { "name": "G", "production_status": "discontinued" },
+            { "name": "JX", "production_status": "discontinued" },
+            { "name": "M", "production_status": "discontinued" },
+            { "name": "Q50", "production_status": "unknown" },
+            { "name": "Q60", "production_status": "discontinued" },
+            { "name": "Q70", "production_status": "discontinued" },
+            { "name": "QX4", "production_status": "discontinued" },
+            { "name": "QX30", "production_status": "discontinued" },
+            { "name": "QX50", "production_status": "current" },
+            { "name": "QX55", "production_status": "current" },
+            { "name": "QX60", "production_status": "current" },
+            { "name": "QX80", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Isuzu",
+          "models": [
+            { "name": "Alterra", "production_status": "discontinued" },
+            { "name": "Amigo", "production_status": "discontinued" },
+            { "name": "Ascender", "production_status": "discontinued" },
+            { "name": "Axiom", "production_status": "discontinued" },
+            { "name": "Crosswind", "production_status": "discontinued" },
+            { "name": "D-Max", "production_status": "current" },
+            { "name": "Hombre", "production_status": "discontinued" },
+            { "name": "i-280", "production_status": "discontinued" },
+            { "name": "i-350", "production_status": "discontinued" },
+            { "name": "MU-X", "production_status": "current" },
+            { "name": "MU-7", "production_status": "current" },
+            { "name": "Panther", "production_status": "discontinued" },
+            { "name": "Rodeo", "production_status": "discontinued" },
+            { "name": "Traviz", "production_status": "current" },
+            { "name": "Trooper", "production_status": "discontinued" },
+            { "name": "VehiCROSS", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Lexus",
+          "models": [
+            { "name": "CT", "production_status": "discontinued" },
+            { "name": "ES", "production_status": "current" },
+            { "name": "GS", "production_status": "discontinued" },
+            { "name": "GX", "production_status": "current" },
+            { "name": "HS", "production_status": "discontinued" },
+            { "name": "IS", "production_status": "current" },
+            { "name": "LBX", "production_status": "current" },
+            { "name": "LC", "production_status": "current" },
+            { "name": "LFA", "production_status": "discontinued" },
+            { "name": "LM", "production_status": "current" },
+            { "name": "LS", "production_status": "current" },
+            { "name": "LX", "production_status": "current" },
+            { "name": "NX", "production_status": "current" },
+            { "name": "RC", "production_status": "discontinued" },
+            { "name": "RX", "production_status": "current" },
+            { "name": "RZ", "production_status": "current" },
+            { "name": "SC", "production_status": "discontinued" },
+            { "name": "SC430", "production_status": "discontinued" },
+            { "name": "TX", "production_status": "current" },
+            { "name": "UX", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Mazda",
+          "models": [
+            { "name": "323", "production_status": "discontinued" },
+            { "name": "626", "production_status": "discontinued" },
+            { "name": "B-Series", "production_status": "discontinued" },
+            { "name": "BT-50", "production_status": "current" },
+            { "name": "CX-3", "production_status": "discontinued" },
+            { "name": "CX-30", "production_status": "current" },
+            { "name": "CX-5", "production_status": "current" },
+            { "name": "CX-50", "production_status": "current" },
+            { "name": "CX-7", "production_status": "discontinued" },
+            { "name": "CX-60", "production_status": "current" },
+            { "name": "CX-8", "production_status": "current" },
+            { "name": "CX-80", "production_status": "current" },
+            { "name": "CX-9", "production_status": "discontinued" },
+            { "name": "CX-90", "production_status": "current" },
+            { "name": "EZ-6", "production_status": "unknown" },
+            { "name": "Mazda2", "production_status": "current" },
+            { "name": "Mazda3", "production_status": "current" },
+            { "name": "Mazda5", "production_status": "discontinued" },
+            { "name": "Mazda6", "production_status": "discontinued" },
+            { "name": "Millenia", "production_status": "discontinued" },
+            { "name": "MPV", "production_status": "discontinued" },
+            { "name": "MX-30", "production_status": "unknown" },
+            { "name": "MX-5", "production_status": "current" },
+            { "name": "Premacy", "production_status": "discontinued" },
+            { "name": "RX-7", "production_status": "discontinued" },
+            { "name": "RX-8", "production_status": "discontinued" },
+            { "name": "Tribute", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Mitsubishi",
+          "models": [
+            { "name": "3000GT", "production_status": "discontinued" },
+            { "name": "Adventure", "production_status": "discontinued" },
+            { "name": "Delica D:5", "production_status": "current" },
+            { "name": "Eclipse", "production_status": "discontinued" },
+            { "name": "Eclipse Cross", "production_status": "discontinued" },
+            { "name": "Endeavor", "production_status": "discontinued" },
+            { "name": "FTO", "production_status": "discontinued" },
+            { "name": "Galant", "production_status": "discontinued" },
+            { "name": "Grandis", "production_status": "discontinued" },
+            { "name": "L300", "production_status": "current" },
+            { "name": "Lancer", "production_status": "discontinued" },
+            { "name": "Mirage", "production_status": "current" },
+            { "name": "Mirage G4", "production_status": "current" },
+            { "name": "Montero", "production_status": "discontinued" },
+            { "name": "Montero Sport", "production_status": "current" },
+            { "name": "Outlander", "production_status": "current" },
+            { "name": "Outlander Sport", "production_status": "discontinued" },
+            { "name": "Pajero", "production_status": "discontinued" },
+            { "name": "Pajero Sport", "production_status": "current" },
+            { "name": "RVR", "production_status": "unknown" },
+            { "name": "Strada", "production_status": "current" },
+            { "name": "Triton", "production_status": "current" },
+            { "name": "Xpander", "production_status": "current" },
+            { "name": "Xpander Cross", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Mitsuoka",
+          "models": [
+            { "name": "Buddy", "production_status": "current" },
+            { "name": "Galue", "production_status": "current" },
+            { "name": "Himiko", "production_status": "current" },
+            { "name": "Le-Seyde", "production_status": "discontinued" },
+            { "name": "M55", "production_status": "current" },
+            { "name": "Orochi", "production_status": "discontinued" },
+            { "name": "Rock Star", "production_status": "discontinued" },
+            { "name": "Ryugi", "production_status": "current" },
+            { "name": "Viewt", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Nissan",
+          "models": [
+            { "name": "180SX", "production_status": "discontinued" },
+            { "name": "240SX", "production_status": "discontinued" },
+            { "name": "Almera", "production_status": "current" },
+            { "name": "Altima", "production_status": "discontinued" },
+            { "name": "Ariya", "production_status": "current" },
+            { "name": "Armada", "production_status": "current" },
+            { "name": "Cefiro", "production_status": "discontinued" },
+            { "name": "Cube", "production_status": "discontinued" },
+            { "name": "Frontier", "production_status": "current" },
+            { "name": "GT-R", "production_status": "current" },
+            { "name": "Juke", "production_status": "current" },
+            { "name": "Kicks", "production_status": "current" },
+            { "name": "Leaf", "production_status": "unknown" },
+            { "name": "Maxima", "production_status": "discontinued" },
+            { "name": "Micra", "production_status": "discontinued" },
+            { "name": "Murano", "production_status": "current" },
+            { "name": "Navara", "production_status": "current" },
+            { "name": "Note", "production_status": "unknown" },
+            { "name": "Pathfinder", "production_status": "current" },
+            { "name": "Patrol", "production_status": "current" },
+            { "name": "Qashqai", "production_status": "current" },
+            { "name": "Quest", "production_status": "discontinued" },
+            { "name": "Rogue", "production_status": "current" },
+            { "name": "Sentra", "production_status": "current" },
+            { "name": "Serena", "production_status": "current" },
+            { "name": "Skyline", "production_status": "discontinued" },
+            { "name": "Sunny", "production_status": "discontinued" },
+            { "name": "Teana", "production_status": "discontinued" },
+            { "name": "Terra", "production_status": "current" },
+            { "name": "Tiida", "production_status": "discontinued" },
+            { "name": "Urvan", "production_status": "current" },
+            { "name": "Versa", "production_status": "current" },
+            { "name": "X-Trail", "production_status": "current" },
+            { "name": "Z", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Subaru",
+          "models": [
+            { "name": "Ascent", "production_status": "current" },
+            { "name": "Baja", "production_status": "discontinued" },
+            { "name": "BRZ", "production_status": "current" },
+            { "name": "Crosstrek", "production_status": "current" },
+            { "name": "Forester", "production_status": "current" },
+            { "name": "Impreza", "production_status": "current" },
+            { "name": "Justy", "production_status": "discontinued" },
+            { "name": "Legacy", "production_status": "discontinued" },
+            { "name": "Levorg", "production_status": "current" },
+            { "name": "Loyale", "production_status": "discontinued" },
+            { "name": "Outback", "production_status": "current" },
+            { "name": "Solterra", "production_status": "current" },
+            { "name": "SVX", "production_status": "discontinued" },
+            { "name": "Tribeca", "production_status": "discontinued" },
+            { "name": "WRX", "production_status": "current" },
+            { "name": "XV", "production_status": "discontinued" }
+          ]
+        },
+        {
+          "name": "Suzuki",
+          "models": [
+            { "name": "Aerio", "production_status": "discontinued" },
+            { "name": "Alto", "production_status": "current" },
+            { "name": "Baleno", "production_status": "current" },
+            { "name": "Celerio", "production_status": "current" },
+            { "name": "Dzire", "production_status": "current" },
+            { "name": "Ertiga", "production_status": "current" },
+            { "name": "Escudo", "production_status": "discontinued" },
+            { "name": "Fronx", "production_status": "unknown" },
+            { "name": "Grand Vitara", "production_status": "unknown" },
+            { "name": "Ignis", "production_status": "current" },
+            { "name": "Jimny", "production_status": "current" },
+            { "name": "Kizashi", "production_status": "discontinued" },
+            { "name": "Liana", "production_status": "discontinued" },
+            { "name": "Samurai", "production_status": "discontinued" },
+            { "name": "S-Cross", "production_status": "discontinued" },
+            { "name": "S-Presso", "production_status": "current" },
+            { "name": "Swift", "production_status": "current" },
+            { "name": "SX4", "production_status": "discontinued" },
+            { "name": "Vitara", "production_status": "current" },
+            { "name": "XL7", "production_status": "current" }
+          ]
+        },
+        {
+          "name": "Toyota",
+          "models": [
+            { "name": "Alphard", "production_status": "current" },
+            { "name": "Auris", "production_status": "discontinued" },
+            { "name": "Avalon", "production_status": "discontinued" },
+            { "name": "Avanza", "production_status": "discontinued" },
+            { "name": "bZ4X", "production_status": "current" },
+            { "name": "Camry", "production_status": "current" },
+            { "name": "C-HR", "production_status": "current" },
+            { "name": "Celica", "production_status": "discontinued" },
+            { "name": "Century", "production_status": "current" },
+            { "name": "Coaster", "production_status": "current" },
+            { "name": "Corolla", "production_status": "current" },
+            { "name": "Corolla Cross", "production_status": "current" },
+            { "name": "Cressida", "production_status": "discontinued" },
+            { "name": "Crown", "production_status": "current" },
+            { "name": "Fortuner", "production_status": "current" },
+            { "name": "GR86", "production_status": "current" },
+            { "name": "Granvia", "production_status": "current" },
+            { "name": "Hiace", "production_status": "current" },
+            { "name": "Highlander", "production_status": "current" },
+            { "name": "Hilux", "production_status": "current" },
+            { "name": "Innova", "production_status": "current" },
+            { "name": "Land Cruiser", "production_status": "current" },
+            { "name": "Land Cruiser 70", "production_status": "unknown" },
+            { "name": "Land Cruiser Prado", "production_status": "current" },
+            { "name": "Matrix", "production_status": "discontinued" },
+            { "name": "MR2", "production_status": "discontinued" },
+            { "name": "Previa", "production_status": "discontinued" },
+            { "name": "Prius", "production_status": "current" },
+            { "name": "Raize", "production_status": "current" },
+            { "name": "RAV4", "production_status": "current" },
+            { "name": "Rush", "production_status": "current" },
+            { "name": "Sequoia", "production_status": "current" },
+            { "name": "Sienna", "production_status": "current" },
+            { "name": "Sienta", "production_status": "discontinued" },
+            { "name": "Starlet", "production_status": "discontinued" },
+            { "name": "Supra", "production_status": "current" },
+            { "name": "Tacoma", "production_status": "current" },
+            { "name": "Tercel", "production_status": "discontinued" },
+            { "name": "Tundra", "production_status": "current" },
+            { "name": "Vellfire", "production_status": "current" },
+            { "name": "Veloz", "production_status": "current" },
+            { "name": "Vios", "production_status": "current" },
+            { "name": "Wigo", "production_status": "current" },
+            { "name": "Wish", "production_status": "discontinued" },
+            { "name": "Yaris", "production_status": "discontinued" },
+            { "name": "Yaris Cross", "production_status": "current" },
+            { "name": "Zenix", "production_status": "current" }
+          ]
+        }
+      ]
+    }
+  ]
+}

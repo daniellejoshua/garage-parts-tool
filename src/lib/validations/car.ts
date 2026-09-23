@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { PART_CONDITIONS } from "../part-values";
+import { LISTING_STATUSES } from "../listing-status";
 
 const toNull = (value: unknown): unknown => {
   if (
@@ -98,14 +100,14 @@ export const carFormSchema = z.object({
   bodyStyle: optionalText(),
   fuelType: optionalText(),
   transmission: optionalText(),
-  condition: optionalText(),
+  condition: z.enum(PART_CONDITIONS).nullable(),
   tag: optionalText(),
   color: optionalText(),
   vin: optionalText(),
   description: optionalText(),
   city: optionalText(),
   location: optionalText(),
-  status: z.string().trim().min(1, "Status is required").max(100),
+  status: z.enum(LISTING_STATUSES, { error: "Status is required" }),
   rating: optionalNumber({ min: 0, max: 10 }),
   inspectionScore: optionalInt({ max: 2_147_483_647 }),
   publishedAt: optionalTimestamp(),
@@ -124,14 +126,14 @@ export interface CarFormValues {
   bodyStyle: string | null;
   fuelType: string | null;
   transmission: string | null;
-  condition: string | null;
+  condition: (typeof PART_CONDITIONS)[number] | null;
   tag: string | null;
   color: string | null;
   vin: string | null;
   description: string | null;
   city: string | null;
   location: string | null;
-  status: string;
+  status: (typeof LISTING_STATUSES)[number] | "";
   rating: number | null;
   inspectionScore: number | null;
   publishedAt: string | null;

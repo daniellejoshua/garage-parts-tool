@@ -14,6 +14,41 @@ import {
   type TransferValidationResult,
 } from "@/lib/server/transfer-service";
 
+const ARCHIVE_README = `GAP Marketplace Export Archive
+==============================
+
+This ZIP is a portable snapshot of listings and their media from GAP Marketplace Admin.
+
+Files
+-----
+- cars.json (or parts.json): one object per listing. Each listing carries
+  "source_listing_id" (its ID in the source system) and "source_media_ids"
+  (IDs of every media record owned by that listing; an empty array means the
+  listing has no images).
+- media.json: one object per media record bundled with the archive.
+- manifest.json: maps each media record (source_media_id) to its original
+  file_path and the packaged_path stored inside this archive.
+- transfer-metadata.json: format_version, export timestamp, and a
+  relationship_mapping describing the exact field names used to join
+  listings to media.
+- preflight-report.json: the integrity report produced before export.
+
+Relating listings to media
+--------------------------
+For a listing with id "56", media.json rows where "listing_type" is the
+archive scope ("car" or "part") and "source_listing_id" equals "56" are its
+images. "is_primary": true marks the primary image; "sort_order" dictates
+display order within the listing. Listings with no media simply have an
+empty "source_media_ids" array.
+
+Import hint
+-----------
+Insert the listing rows first and keep source_listing_id around; then insert
+media rows using source_media_id -> source_listing_id. Drop the listing-level
+fields source_listing_id and source_media_ids before inserting cars/parts rows
+(see relationship_mapping.strip_listing_fields_before_insert).
+`;
+
 interface CarExportPayload {
   seller_id: string;
   title: string;
@@ -61,12 +96,12 @@ interface PartExportPayload {
 
 interface MediaExportPayload {
   source_media_id: string;
-  mediable_type: string;
-  mediable_id: string;
+  listing_type: string;
+  source_listing_id: string;
   url: string | null;
   type: string | null;
   is_primary: boolean;
-  order: number;
+  sort_order: number;
   caption: string | null;
   file_path: string | null;
   file_name: string | null;
@@ -129,12 +164,12 @@ export async function createExportArchive(
   }
 
   const listingPayloads: Array<
-    | (CarExportPayload & { mediable_id: string; media_ids: string[] })
-    | (PartExportPayload & { mediable_id: string; media_ids: string[] })
+    | (CarExportPayload & { source_listing_id: string; source_media_ids: string[] })
+    | (PartExportPayload & { source_listing_id: string; source_media_ids: string[] })
   > = scope === "car"
     ? cars.map((car) => ({
-        mediable_id: car.id.toString(),
-        media_ids: mediaByListing.get(car.id.toString())?.map((item) => item.id.toString()) ?? [],
+        source_listing_id: car.id.toString(),
+        source_media_ids: mediaByListing.get(car.id.toString())?.map((item) => item.id.toString()) ?? [],
         seller_id: car.sellerId.toString(),
         title: car.title,
         brand: car.brand,
@@ -160,8 +195,8 @@ export async function createExportArchive(
         sold_at: car.soldAt?.toISOString() ?? null,
       }))
     : parts.map((part) => ({
-        mediable_id: part.id.toString(),
-        media_ids: mediaByListing.get(part.id.toString())?.map((item) => item.id.toString()) ?? [],
+        source_listing_id: part.id.toString(),
+        source_media_ids: mediaByListing.get(part.id.toString())?.map((item) => item.id.toString()) ?? [],
         title: part.title,
         category: part.category,
         brand: part.brand,
@@ -192,12 +227,12 @@ export async function createExportArchive(
   );
   const mediaPayloads: MediaExportPayload[] = media.map((item) => ({
     source_media_id: item.id.toString(),
-    mediable_type: item.mediableType,
-    mediable_id: item.mediableId.toString(),
+    listing_type: item.mediableType,
+    source_listing_id: item.mediableId.toString(),
     url: item.url,
     type: item.type,
     is_primary: item.isPrimary,
-    order: item.order,
+    sort_order: item.order,
     caption: item.caption,
     file_path: item.filePath,
     file_name: item.fileName,
@@ -207,16 +242,16 @@ export async function createExportArchive(
   const sourceListings = scope === "car" ? cars : parts;
   const exportedSourceIds = new Set(sourceListings.map((listing) => listing.id.toString()));
   const manifest = {
-    format_version: 4,
+    format_version: 5,
     scope,
     files: media.map((item) => ({
       source_media_id: item.id.toString(),
-      mediable_type: item.mediableType,
-      mediable_id: item.mediableId.toString(),
+      listing_type: item.mediableType,
+      source_listing_id: item.mediableId.toString(),
       file_path: item.filePath,
       packaged_path: archivePaths.get(item.id.toString()),
       is_primary: item.isPrimary,
-      order: item.order,
+      sort_order: item.order,
     })),
   };
   const relationshipErrors: TransferValidationError[] = [];
@@ -226,7 +261,7 @@ export async function createExportArchive(
         type: "orphan_media",
         entityType: "media",
         entityId: item.id.toString(),
-        message: `Media ${item.id} does not resolve to an exported ${scope} mediable_id.`,
+        message: `Media ${item.id} does not resolve to an exported ${scope} source_listing_id.`,
       });
     }
     if (!archivePaths.get(item.id.toString())) {
@@ -249,17 +284,17 @@ export async function createExportArchive(
     };
   }
   const transferMetadata = {
-    format_version: 4,
+    format_version: 5,
     scope,
     exported_at: new Date().toISOString(),
     relationship_mapping: {
-      listing_key: "mediable_id",
-      listing_media_ids_key: "media_ids",
-      media_foreign_key: "mediable_id",
-      media_type_key: "mediable_type",
-      strip_listing_fields_before_insert: ["mediable_id", "media_ids"],
+      listing_key: "source_listing_id",
+      listing_media_ids_key: "source_media_ids",
+      media_foreign_key: "source_listing_id",
+      media_type_key: "listing_type",
+      strip_listing_fields_before_insert: ["source_listing_id", "source_media_ids"],
     },
-    listing_mediable_ids: sourceListings.map((listing) => listing.id.toString()),
+    listing_source_ids: sourceListings.map((listing) => listing.id.toString()),
   };
 
   const output = new PassThrough();
@@ -272,27 +307,30 @@ export async function createExportArchive(
       archive.append(json(listingPayloads), {
         name: scope === "car" ? "cars.json" : "parts.json",
       });
+      archive.append(ARCHIVE_README, { name: "README.md" });
       archive.append(json(mediaPayloads), { name: "media.json" });
       archive.append(json(transferMetadata), { name: "transfer-metadata.json" });
       archive.append(json(manifest), { name: "manifest.json" });
       archive.append(json(report), { name: "preflight-report.json" });
 
-      const client = getS3Client();
-      const bucket = getBucket();
-      for (const item of media) {
-        if (!item.filePath) throw new Error(`Media ${item.id} has no file_path.`);
-        const object = await client.send(
-          new GetObjectCommand({ Bucket: bucket, Key: item.filePath }),
-        );
-        if (!object.Body) throw new Error(`MinIO returned no bytes for Media ${item.id}.`);
+      if (media.length > 0) {
+        const client = getS3Client();
+        const bucket = getBucket();
+        for (const item of media) {
+          if (!item.filePath) throw new Error(`Media ${item.id} has no file_path.`);
+          const object = await client.send(
+            new GetObjectCommand({ Bucket: bucket, Key: item.filePath }),
+          );
+          if (!object.Body) throw new Error(`MinIO returned no bytes for Media ${item.id}.`);
 
-        const name = archivePaths.get(item.id.toString());
-        if (!name) throw new Error(`Media ${item.id} has no archive path.`);
-        if (object.Body instanceof Readable) {
-          archive.append(object.Body, { name });
-          await once(object.Body, "end");
-        } else {
-          archive.append(Buffer.from(await object.Body.transformToByteArray()), { name });
+          const name = archivePaths.get(item.id.toString());
+          if (!name) throw new Error(`Media ${item.id} has no archive path.`);
+          if (object.Body instanceof Readable) {
+            archive.append(object.Body, { name });
+            await once(object.Body, "end");
+          } else {
+            archive.append(Buffer.from(await object.Body.transformToByteArray()), { name });
+          }
         }
       }
       await archive.finalize();

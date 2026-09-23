@@ -14,7 +14,6 @@ export interface TransferValidationError {
     | "missing_required_field"
     | "missing_seller"
     | "missing_compatibility"
-    | "missing_image"
     | "invalid_category"
     | "invalid_condition"
     | "invalid_value"
@@ -30,7 +29,7 @@ export interface TransferValidationError {
 }
 
 export interface TransferValidationWarning {
-  type: "suspicious_value" | "low_image_count" | "high_image_count";
+  type: "suspicious_value" | "low_image_count" | "high_image_count" | "missing_image";
   entityType: "car" | "part" | "media";
   entityId: string;
   message: string;
@@ -340,8 +339,8 @@ export async function validateTransferReadiness(
       errors.push({
         type: "invalid_value",
         entityType: "export",
-        entityId: "mediable_ids",
-        message: "Exported listings do not have unique mediable_id transfer values.",
+        entityId: "source_listing_ids",
+        message: "Exported listings do not have unique source_listing_id values.",
       });
     }
     if (selectedSourceIds) {
@@ -351,7 +350,7 @@ export async function validateTransferReadiness(
             type: "missing_required_field",
             entityType: "export",
             entityId: selectedId.toString(),
-            message: `Requested ${scope} mediable_id ${selectedId} does not exist.`,
+            message: `Requested ${scope} source_listing_id ${selectedId} does not exist.`,
           });
         }
       }
@@ -383,7 +382,7 @@ export async function validateTransferReadiness(
           item.mediableType === listing.type && item.mediableId.toString() === listing.id,
       );
       if (listingMedia.length === 0) {
-        errors.push({
+        warnings.push({
           type: "missing_image",
           entityType: listing.type,
           entityId: listing.id,
@@ -439,6 +438,8 @@ export async function validateTransferReadiness(
 
   const countErrors = (type: TransferValidationError["type"]) =>
     errors.filter((error) => error.type === type).length;
+  const countWarnings = (type: TransferValidationWarning["type"]) =>
+    warnings.filter((warning) => warning.type === type).length;
   return {
     success: errors.length === 0,
     scope,
@@ -453,7 +454,7 @@ export async function validateTransferReadiness(
       orphanMedia: countErrors("orphan_media"),
       missingSellers: countErrors("missing_seller"),
       missingCompatibility: countErrors("missing_compatibility"),
-      missingImages: countErrors("missing_image"),
+      missingImages: countWarnings("missing_image"),
       invalidPrimary: countErrors("invalid_primary"),
       invalidOrder: countErrors("invalid_order"),
       missingMinioObjects: countErrors("missing_minio_object"),

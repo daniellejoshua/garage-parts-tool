@@ -37,6 +37,7 @@ import { PartRow } from "@/lib/server/serialize-part";
 import type { PartNavContext } from "@/lib/server/part-actions";
 import { partEditPath, partViewPath } from "@/lib/part-routes";
 import { displayValue, formatDateTime, formatPrice, formatWhole } from "@/lib/car-format";
+import { listingStatusClassName } from "@/lib/listing-status";
 import { DeletePartButton } from "@/components/parts/delete-part-button";
 import { ExportButton } from "@/components/app/export-button";
 
@@ -105,22 +106,24 @@ export function PartListingsTable({
       header: "Title",
       cell: ({ row, getValue }) => {
         const rowContext = context ?? contexts?.[row.id];
+        const label = getValue();
         return (
-          <div className="flex flex-col gap-0.5">
-          {rowContext ? (
-            <Link
-              href={partViewPath(rowContext.brandSlug, rowContext.modelSlug, row.id)}
-              className="font-medium text-foreground transition-colors hover:text-primary"
-            >
-              {getValue()}
-            </Link>
-          ) : (
-            <span className="font-medium text-foreground">{getValue()}</span>
-          )}
-          <span className="text-xs text-muted-foreground">
-            Listing #{row.id}
-          </span>
-        </div>
+          <div className="flex items-center gap-2">
+            {rowContext ? (
+              <Link
+                href={partViewPath(rowContext.brandSlug, rowContext.modelSlug, row.id)}
+                title={label}
+                className="max-w-[220px] truncate font-medium text-foreground transition-colors hover:text-primary"
+              >
+                {label}
+              </Link>
+            ) : (
+              <span title={label} className="max-w-[220px] truncate font-medium text-foreground">
+                {label}
+              </span>
+            )}
+            <span className="text-xs text-muted-foreground">#{row.id}</span>
+          </div>
         );
       },
     }),
@@ -149,7 +152,7 @@ export function PartListingsTable({
     }),
     columnHelper.accessor("status", {
       header: "Status",
-      cell: ({ getValue }) => <Badge variant="secondary">{getValue()}</Badge>,
+      cell: ({ getValue }) => <Badge className={listingStatusClassName(getValue())}>{getValue()}</Badge>,
     }),
     columnHelper.accessor("city", {
       header: "City",
@@ -169,10 +172,10 @@ export function PartListingsTable({
         }
 
         return (
-          <div className="flex items-center justify-end gap-1">
+          <div className="flex items-center justify-end gap-0.5">
           <Button
             variant="ghost"
-            size="icon"
+            size="icon-sm"
             render={<Link href={partViewPath(rowContext.brandSlug, rowContext.modelSlug, row.id)} />}
             aria-label={`View ${row.original.title}`}
           >
@@ -180,7 +183,7 @@ export function PartListingsTable({
           </Button>
           <Button
             variant="ghost"
-            size="icon"
+            size="icon-sm"
             render={<Link href={partEditPath(rowContext.brandSlug, rowContext.modelSlug, row.id)} />}
             aria-label={`Edit ${row.original.title}`}
           >
@@ -191,7 +194,7 @@ export function PartListingsTable({
             partId={row.id}
             partTitle={row.original.title}
             variant="ghost"
-            size="icon"
+            size="icon-sm"
             iconOnly
           />
           </div>
@@ -215,25 +218,26 @@ export function PartListingsTable({
     getRowId: (row) => row.id,
   });
 
-  const { pageIndex } = table.getState().pagination;
+  const { pageIndex, pageSize } = table.getState().pagination;
   const pageCount = table.getPageCount();
   const filteredCount = table.getFilteredRowModel().rows.length;
+  const rangeStart = filteredCount === 0 ? 0 : pageIndex * pageSize + 1;
+  const rangeEnd = Math.min((pageIndex + 1) * pageSize, filteredCount);
 
   return (
-    <div className="flex flex-col gap-5 rounded-xl border border-border bg-card p-4 sm:p-5">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-3 sm:p-4">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative w-full sm:max-w-xs">
           <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={globalFilter}
             onChange={(event) => setGlobalFilter(event.target.value)}
             placeholder="Search listings"
-            className="pl-10"
+            className="h-8 pl-10 text-sm"
             aria-label="Search listings"
           />
         </div>
         <div className="flex items-center justify-between gap-3 sm:justify-end">
-          <span className="text-sm text-muted-foreground">{filteredCount} result(s)</span>
           {exportScope ? <ExportButton scope={exportScope} disabled={filteredCount === 0} /> : null}
         </div>
       </div>
@@ -290,11 +294,13 @@ export function PartListingsTable({
         </Table>
       </div>
 
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
-          Page {pageCount === 0 ? 0 : pageIndex + 1} of {pageCount}
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs text-muted-foreground">
+          {filteredCount === 0
+            ? "No results"
+            : `Showing ${rangeStart}–${rangeEnd} of ${filteredCount}`}
         </p>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <Button
             variant="outline"
             size="sm"
@@ -304,6 +310,9 @@ export function PartListingsTable({
             <ChevronLeftIcon />
             Previous
           </Button>
+          <span className="text-xs text-muted-foreground">
+            {pageCount === 0 ? 0 : pageIndex + 1}/{pageCount}
+          </span>
           <Button
             variant="outline"
             size="sm"

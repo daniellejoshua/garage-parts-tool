@@ -3,13 +3,10 @@ import { notFound } from "next/navigation";
 import { loadDatabaseCatalog } from "@/lib/reference/catalog-db";
 import { findBrand, findModel } from "@/lib/reference/slug";
 import { prisma } from "@/lib/server/db";
-import { getAllVehicleModelsWithBrands } from "@/lib/server/part-queries";
+import { getBrandsForSelection } from "@/lib/server/catalog-queries";
 import { emptyPartFormValues } from "@/lib/validations/part";
-import { Trail } from "@/components/app/trail";
-import { PageHeading } from "@/components/app/page-heading";
 import { PartMultiStepForm } from "@/components/parts/part-multi-step-form";
-import { modelsPath } from "@/lib/modules";
-import type { MultiSelectOption } from "@/components/ui/multi-select";
+import { listingsPath } from "@/lib/modules";
 
 export const metadata: Metadata = {
   title: "Add part listing",
@@ -35,41 +32,31 @@ export default async function NewPartListingPage({
   });
   if (!dbModel) notFound();
 
-  const dbModels = await getAllVehicleModelsWithBrands();
-  const allModels: MultiSelectOption[] = dbModels.map((m) => ({
-    value: m.id,
-    label: `${m.brandName} ${m.name}`,
-    group: m.brandRegion,
-  }));
+  const allBrands = await getBrandsForSelection();
 
   const defaults = emptyPartFormValues();
   const context = { brandSlug, modelSlug };
+  const navigatedModelId = dbModel.id.toString();
+  const initialSelected = [
+    {
+      id: navigatedModelId,
+      label: `${brand.name} ${model.name}`,
+      brandName: brand.name,
+    },
+  ];
 
   return (
-    <div className="flex flex-col gap-6">
-      <Trail
-        items={[
-          { label: "Car Parts", href: "/parts/brands" },
-          { label: brand.name, href: modelsPath("parts", brandSlug) },
-          { label: model.name, href: listingsPath("parts", brandSlug, modelSlug) },
-          { label: "Add listing" },
-        ]}
-      />
-      <PageHeading
-        title={`Add part listing for ${brand.name} ${model.name}`}
-        description={`Create a new part listing compatible with ${brand.name} ${model.name}.`}
-      />
+    <div>
       <PartMultiStepForm
         mode="create"
         context={context}
         defaults={defaults}
-        cancelHref={listingsPath("parts", brandSlug, modelSlug)}
-        allModels={allModels}
-        navigatedModelId={dbModel.id.toString()}
+        backHref={listingsPath("parts", brandSlug, modelSlug)}
+        allBrands={allBrands}
+        initialSelected={initialSelected}
+        navigatedModelId={navigatedModelId}
         vehicleLabel={`${brand.name} ${model.name}`}
       />
     </div>
   );
 }
-
-import { listingsPath } from "@/lib/modules";

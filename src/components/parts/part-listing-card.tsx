@@ -22,6 +22,7 @@ import type { MediaRow } from "@/lib/server/media-queries";
 import type { StagedImage } from "@/components/media/staged-image-picker";
 import { usePresignedMediaUrls } from "@/components/media/use-presigned-media-urls";
 import { formatPrice, formatWhole } from "@/lib/car-format";
+import { listingStatusClassName } from "@/lib/listing-status";
 import type { PartFormValues } from "@/lib/validations/part";
 
 function PreviewItem({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
@@ -78,7 +79,7 @@ export function PartListingCard({
               </div>
             </div>
           ) : null}
-          <span className="rounded-lg bg-status-unknown px-3 py-1 text-xs font-medium text-status-unknown-foreground">
+          <span className={cn("rounded-lg px-3 py-1 text-xs font-medium", listingStatusClassName(preview ? "draft" : values.status))}>
             {preview ? "Draft" : value(values.status)}
           </span>
           {preview ? <span className="flex items-center gap-2 text-xs text-muted-foreground"><EyeIcon className="size-4" /> Preview updates live</span> : null}

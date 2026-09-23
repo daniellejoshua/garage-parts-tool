@@ -7,7 +7,9 @@ import { useForm, useWatch, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
+  ArrowLeftIcon,
   CircleDollarSignIcon,
+  ExternalLinkIcon,
   FileTextIcon,
   ImageIcon,
   Loader2Icon,
@@ -18,6 +20,7 @@ import { cn } from "cn";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   Form,
   FormControl,
@@ -28,9 +31,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import type { MultiSelectOption } from "@/components/ui/multi-select";
 import { CompatibilitySelector } from "@/components/parts/compatibility-selector";
+import type { VehicleBrandSummary, SelectedModelRef } from "@/lib/server/catalog-queries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { LISTING_STATUSES } from "@/lib/listing-status";
 import { Switch } from "@/components/ui/switch";
 import { DropZone } from "@/components/ui/drop-zone";
 import { ImageGallery } from "@/components/media/image-gallery";
@@ -57,11 +61,14 @@ interface PartMultiStepFormProps {
   context: PartNavContext;
   partId?: string;
   defaults: PartFormValues;
-  cancelHref: string;
-  allModels: MultiSelectOption[];
+  backHref: string;
+  viewHref?: string;
+  allBrands: VehicleBrandSummary[];
+  initialSelected: SelectedModelRef[];
   navigatedModelId: string;
   vehicleLabel: string;
   initialMedia?: MediaRow[];
+  initialStep?: StepId;
 }
 
 const partClientSchema = partFormSchema.extend({
@@ -105,6 +112,46 @@ const STEPS: Array<{
   },
 ];
 
+const STEP_FIELDS: Record<StepId, Array<keyof PartFormValues>> = {
+  1: ["title", "category", "brand", "partNumber", "status", "tag"],
+  2: ["condition", "oemNumber", "compatibleModelIds"],
+  3: ["quantity", "price", "originalPrice", "freeShipping", "city", "location"],
+  4: [],
+};
+
+function FormTabs({ activeStep, onStepChange }: {
+  activeStep: StepId;
+  onStepChange: (step: StepId) => void;
+}) {
+  return (
+    <nav aria-label="Listing form sections" className="overflow-x-auto rounded-lg border border-border bg-card">
+      <div className="grid min-w-[620px] grid-cols-4">
+      {STEPS.map((step) => {
+        const active = step.id === activeStep;
+        const StepIcon = step.icon;
+        return (
+          <button
+            key={step.id}
+            type="button"
+            onClick={() => onStepChange(step.id)}
+            className={cn(
+              "flex h-11 min-w-0 items-center justify-center gap-1.5 border-b-2 px-2.5 text-[11px] font-medium transition-colors",
+              active
+                ? "border-primary bg-primary/5 text-foreground"
+                : "border-transparent text-muted-foreground hover:bg-muted/30 hover:text-foreground",
+            )}
+            aria-current={active ? "page" : undefined}
+          >
+            <StepIcon className={cn("size-3.5", active && "text-primary")} />
+            <span className="truncate">{step.title}</span>
+          </button>
+        );
+      })}
+      </div>
+    </nav>
+  );
+}
+
 function TextField({
   name,
   label,
@@ -124,8 +171,8 @@ function TextField({
     <FormField
       name={name}
       render={({ field }) => (
-        <FormItem className={className}>
-          <FormLabel className="flex min-h-5 items-center">
+        <FormItem className={cn("gap-1.5", className)}>
+          <FormLabel className="flex min-h-4 items-center text-xs">
             {label}
             {required ? <span className="text-destructive"> *</span> : null}
           </FormLabel>
@@ -134,9 +181,10 @@ function TextField({
               value={typeof field.value === "string" ? field.value : ""}
               onChange={field.onChange}
               placeholder={placeholder}
+              className="h-9 rounded-md text-xs"
             />
           </FormControl>
-          {description ? <FormDescription className="text-xs">{description}</FormDescription> : null}
+          {description ? <FormDescription className="text-[11px]">{description}</FormDescription> : null}
           <FormMessage />
         </FormItem>
       )}
@@ -163,17 +211,19 @@ function NumberField({
     <FormField
       name={name}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel className="flex min-h-5 items-center">
+        <FormItem className="gap-1.5">
+          <FormLabel className="flex min-h-4 items-center text-xs">
             {label}
             {required ? <span className="text-destructive"> *</span> : null}
           </FormLabel>
           <FormControl>
             <Input
               type="number"
+              inputMode="decimal"
               min={min}
               step={step}
               placeholder={placeholder}
+              className="h-9 rounded-md text-xs"
               value={typeof field.value === "number" ? field.value : ""}
               onChange={(event) => field.onChange(event.target.value === "" ? null : Number(event.target.value))}
             />
@@ -190,7 +240,7 @@ function SelectField({
   label,
   options,
 }: {
-  name: "category" | "condition";
+  name: "category" | "condition" | "status";
   label: string;
   options: readonly string[];
 }) {
@@ -198,8 +248,8 @@ function SelectField({
     <FormField
       name={name}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel className="flex min-h-5 items-center">{label}<span className="text-destructive"> *</span></FormLabel>
+        <FormItem className="gap-1.5">
+          <FormLabel className="flex min-h-4 items-center text-xs">{label}<span className="text-destructive"> *</span></FormLabel>
           <Select value={field.value || null} onValueChange={field.onChange}>
             <FormControl>
               <SelectTrigger>
@@ -221,12 +271,60 @@ function SelectField({
   );
 }
 
+function MediaReviewSection({
+  mode,
+  partId,
+  context,
+  initialMedia,
+  stagedImages,
+  onStagedImagesChange,
+}: {
+  mode: "create" | "edit";
+  partId?: string;
+  context: PartNavContext;
+  initialMedia: MediaRow[];
+  stagedImages: StagedImage[];
+  onStagedImagesChange: (images: StagedImage[]) => void;
+}) {
+  const router = useRouter();
+
+  return mode === "edit" && partId ? (
+    <div className="space-y-3">
+      <ImageGallery
+        key={initialMedia.map((item) => item.id).join("-")}
+        parentType="part"
+        parentId={partId}
+        brandSlug={context.brandSlug}
+        modelSlug={context.modelSlug}
+        initialMedia={initialMedia}
+        editable
+        compact
+        onUpdate={() => router.refresh()}
+      />
+      <DropZone
+        parentType="part"
+        parentId={partId}
+        brandSlug={context.brandSlug}
+        modelSlug={context.modelSlug}
+        currentCount={initialMedia.length}
+        maxCount={20}
+        compact
+        onUploadComplete={() => router.refresh()}
+      />
+    </div>
+  ) : (
+    <StagedImagePicker images={stagedImages} onChange={onStagedImagesChange} compact />
+  );
+}
+
 function FormStep({
   step,
   mode,
   partId,
   context,
-  allModels,
+  allBrands,
+  initialSelected,
+  navigatedModelId,
   vehicleLabel,
   initialMedia,
   stagedImages,
@@ -236,22 +334,22 @@ function FormStep({
   mode: "create" | "edit";
   partId?: string;
   context: PartNavContext;
-  allModels: MultiSelectOption[];
+  allBrands: VehicleBrandSummary[];
+  initialSelected: SelectedModelRef[];
+  navigatedModelId: string;
   vehicleLabel: string;
   initialMedia: MediaRow[];
   stagedImages: StagedImage[];
   onStagedImagesChange: (images: StagedImage[]) => void;
 }) {
-  const router = useRouter();
-
   if (step === 1) {
     return (
-      <div className="grid items-start gap-5 sm:grid-cols-2 sm:[&>*]:min-w-0">
+      <div className="grid items-start gap-x-4 gap-y-3 sm:grid-cols-2 sm:[&>*]:min-w-0">
         <TextField name="title" label="Title" required placeholder="e.g. Front Brake Rotor Set" />
         <SelectField name="category" label="Category" options={PART_CATEGORIES} />
         <TextField name="brand" label="Part brand" required placeholder="e.g. Brembo, Denso, OEM" description="The part manufacturer, not the vehicle brand." />
         <TextField name="partNumber" label="Part number" placeholder="Manufacturer part number" />
-        <TextField name="status" label="Status" required placeholder="e.g. available, sold, reserved" description="Free text; no approved status set is defined." />
+        <SelectField name="status" label="Status" options={LISTING_STATUSES} />
         <TextField name="tag" label="Tag" placeholder="e.g. limited, negotiable" />
       </div>
     );
@@ -259,21 +357,23 @@ function FormStep({
 
   if (step === 2) {
     return (
-      <div className="grid items-start gap-5 sm:grid-cols-2 sm:[&>*]:min-w-0">
+      <div className="grid items-start gap-x-4 gap-y-3 sm:grid-cols-2 sm:[&>*]:min-w-0">
         <SelectField name="condition" label="Condition" options={PART_CONDITIONS} />
         <TextField name="oemNumber" label="OEM number" placeholder="Original equipment manufacturer number" />
         <FormField
           name="compatibleModelIds"
           render={({ field }) => (
-            <FormItem className="sm:col-span-2">
-              <FormLabel>Compatible vehicle models <span className="text-destructive">*</span></FormLabel>
-              <FormDescription className="text-xs">
+            <FormItem className="gap-1.5 sm:col-span-2">
+              <FormLabel className="flex min-h-4 items-center text-xs">Compatible vehicle models <span className="text-destructive"> *</span></FormLabel>
+              <FormDescription className="text-[11px]">
                 {vehicleLabel} is included. Select any additional verified compatible models.
               </FormDescription>
               <CompatibilitySelector
                 value={field.value}
                 onChange={field.onChange}
-                allModels={allModels}
+                allBrands={allBrands}
+                initialSelected={initialSelected}
+                navigatedModelId={navigatedModelId}
                 vehicleLabel={vehicleLabel}
                 disabled={false}
               />
@@ -287,22 +387,22 @@ function FormStep({
 
   if (step === 3) {
     return (
-      <div className="grid items-start gap-5 sm:grid-cols-2 sm:[&>*]:min-w-0">
+      <div className="grid items-start gap-x-4 gap-y-3 sm:grid-cols-2 sm:[&>*]:min-w-0">
         <NumberField name="quantity" label="Quantity" required min={1} step="1" placeholder="1" />
         <NumberField name="price" label="Price" required min={0.01} placeholder="150" />
         <NumberField name="originalPrice" label="Original price" min={0} placeholder="180" />
         <FormField
           name="freeShipping"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="flex min-h-5 items-center">Free shipping</FormLabel>
+            <FormItem className="gap-1.5">
+              <FormLabel className="flex min-h-4 items-center text-xs">Free shipping</FormLabel>
               <FormControl>
-                <div className="flex h-10 items-center justify-between rounded-lg border border-border bg-muted/20 px-3">
-                  <span className="text-sm text-muted-foreground">Offer free shipping</span>
+                <div className="flex h-9 items-center justify-between rounded-lg border border-border bg-muted/20 px-3">
+                  <span className="text-xs text-muted-foreground">Offer free shipping</span>
                   <Switch checked={field.value} onCheckedChange={field.onChange} />
                 </div>
               </FormControl>
-              <FormDescription className="text-xs">Applied to this listing when enabled.</FormDescription>
+              <FormDescription className="text-[11px]">Applied to this listing when enabled.</FormDescription>
             </FormItem>
           )}
         />
@@ -312,32 +412,14 @@ function FormStep({
     );
   }
 
-  return mode === "edit" && partId ? (
-    <div className="space-y-4">
-      <ImageGallery
-        key={initialMedia.map((item) => item.id).join("-")}
-        parentType="part"
-        parentId={partId}
-        brandSlug={context.brandSlug}
-        modelSlug={context.modelSlug}
-        initialMedia={initialMedia}
-        editable
-        onUpdate={() => router.refresh()}
-      />
-      <DropZone
-        parentType="part"
-        parentId={partId}
-        brandSlug={context.brandSlug}
-        modelSlug={context.modelSlug}
-        currentCount={initialMedia.length}
-        maxCount={20}
-        onUploadComplete={() => router.refresh()}
-      />
-    </div>
-  ) : (
-    <StagedImagePicker
-      images={stagedImages}
-      onChange={onStagedImagesChange}
+  return (
+    <MediaReviewSection
+      mode={mode}
+      partId={partId}
+      context={context}
+      initialMedia={initialMedia}
+      stagedImages={stagedImages}
+      onStagedImagesChange={onStagedImagesChange}
     />
   );
 }
@@ -347,11 +429,14 @@ export function PartMultiStepForm({
   context,
   partId,
   defaults,
-  cancelHref,
-  allModels,
+  backHref,
+  viewHref,
+  allBrands,
+  initialSelected,
   navigatedModelId,
   vehicleLabel,
   initialMedia = [],
+  initialStep = 1,
 }: PartMultiStepFormProps) {
   const initialValues = {
     ...defaults,
@@ -359,6 +444,7 @@ export function PartMultiStepForm({
       ? defaults.compatibleModelIds
       : [navigatedModelId],
   };
+  const [activeStep, setActiveStep] = useState<StepId>(initialStep);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [stagedImages, setStagedImages] = useState<StagedImage[]>([]);
   const router = useRouter();
@@ -404,58 +490,104 @@ export function PartMultiStepForm({
     }
   }
 
+  function onInvalid(errors: typeof form.formState.errors) {
+    const firstInvalidField = Object.keys(errors)[0] as keyof PartFormValues | undefined;
+    if (!firstInvalidField) return;
+    const invalidStep = STEPS.find((step) => STEP_FIELDS[step.id].includes(firstInvalidField));
+    if (invalidStep) setActiveStep(invalidStep.id);
+  }
+
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmit, onInvalid)}
         noValidate
       >
-        <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.78fr)_minmax(300px,1fr)]">
-          <Card className="min-w-0 shadow-sm">
-            <CardContent className="p-0">
-              {STEPS.map((section, index) => {
-                const SectionIcon = section.icon;
+        <div className="space-y-3">
+          <header className="flex flex-wrap items-center gap-2">
+            <Tooltip>
+              <TooltipTrigger render={<Button type="button" variant="ghost" size="icon" className="size-8 shrink-0 text-primary" render={<Link href={backHref} aria-label="Back to Parts" />} />}>
+                <ArrowLeftIcon className="size-4" />
+              </TooltipTrigger>
+              <TooltipContent side="right">Back to Parts</TooltipContent>
+            </Tooltip>
+            <h1 className="shrink-0 text-xl font-semibold tracking-[-0.03em] text-foreground">
+              {mode === "create" ? "Create Part Listing" : "Edit Part Listing"}
+            </h1>
+            {mode === "edit" && partId && (
+              <>
+                <span className="text-border" aria-hidden="true">•</span>
+                <span className="text-muted-foreground">{partId}</span>
+                <span className="text-border" aria-hidden="true">•</span>
+                <span className="text-[11px] text-muted-foreground">
+                  Update part information, compatibility, and pricing.
+                </span>
+              </>
+            )}
+            {mode === "create" && (
+              <>
+                <span className="text-border" aria-hidden="true">•</span>
+                <span className="text-[11px] text-muted-foreground">
+                  Add a new compatible part listing to your marketplace presentation data.
+                </span>
+              </>
+            )}
+            <div className="flex gap-1.5 ml-auto">
+              {viewHref ? (
+                <Button type="button" variant="outline" size="sm" render={<Link href={viewHref} />}>
+                  <ExternalLinkIcon /> View
+                </Button>
+              ) : null}
+              <Button type="submit" size="sm" disabled={isSubmitting}>
+                {isSubmitting ? <Loader2Icon className="animate-spin" /> : <SaveIcon />}
+                {mode === "create" ? "Create" : "Save"}
+              </Button>
+            </div>
+          </header>
 
+          <div className="grid min-w-0 items-start gap-5 lg:grid-cols-[minmax(0,1.7fr)_minmax(350px,1fr)]">
+            <div className="min-w-0 space-y-3">
+              <FormTabs activeStep={activeStep} onStepChange={setActiveStep} />
+
+              {STEPS.filter((section) => section.id === activeStep).map((section) => {
+                const SectionIcon = section.icon;
                 return (
-                  <section
-                    key={section.id}
-                    className={cn("space-y-6 p-5 sm:p-6", index > 0 && "border-t border-border")}
-                  >
-                    <div className="flex items-center gap-4">
-                      <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                        <SectionIcon className="size-5" />
-                      </span>
-                      <div>
-                        <CardTitle className="text-lg font-semibold">{section.title}</CardTitle>
-                        <CardDescription className="mt-1">{section.cardDescription}</CardDescription>
+                  <Card key={section.id} className="min-w-0 gap-0 rounded-lg py-0 shadow-sm">
+                    <CardContent className="p-0">
+                      <div className="flex items-center gap-2.5 border-b border-border px-4 py-2.5">
+                        <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                          <SectionIcon className="size-4" />
+                        </span>
+                        <div>
+                          <CardTitle className="text-[15px] font-semibold">{section.title}</CardTitle>
+                          <CardDescription className="mt-0.5 text-[11px]">{section.cardDescription}</CardDescription>
+                        </div>
                       </div>
-                    </div>
-                    <FormStep
-                      step={section.id}
-                      mode={mode}
-                      partId={partId}
-                      context={context}
-                      allModels={allModels}
-                      vehicleLabel={vehicleLabel}
-                      initialMedia={initialMedia}
-                      stagedImages={stagedImages}
-                      onStagedImagesChange={setStagedImages}
-                    />
-                  </section>
+                      <div className="p-4">
+<FormStep
+  step={section.id}
+  mode={mode}
+  partId={partId}
+  context={context}
+  allBrands={allBrands}
+  initialSelected={initialSelected}
+  navigatedModelId={navigatedModelId}
+  vehicleLabel={vehicleLabel}
+  initialMedia={initialMedia}
+  stagedImages={stagedImages}
+  onStagedImagesChange={setStagedImages}
+/>
+                      </div>
+                    </CardContent>
+                  </Card>
                 );
               })}
-              <div className="flex flex-col gap-3 border-t border-border p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
-                <Button type="button" variant="outline" render={<Link href={cancelHref} />}>Cancel</Button>
-                <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? <Loader2Icon className="animate-spin" /> : <SaveIcon />}
-                  {mode === "create" ? "Create listing" : "Save changes"}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-          <aside className="lg:sticky lg:top-24 lg:self-start">
-            <PartListingCard values={values} vehicleLabel={vehicleLabel} media={initialMedia} stagedImages={stagedImages} preview />
-          </aside>
+            </div>
+
+            <aside className="lg:sticky lg:top-20 lg:self-start">
+              <PartListingCard values={values} vehicleLabel={vehicleLabel} media={initialMedia} stagedImages={stagedImages} preview />
+            </aside>
+          </div>
         </div>
       </form>
     </Form>

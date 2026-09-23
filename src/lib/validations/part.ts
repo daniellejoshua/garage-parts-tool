@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { PART_CATEGORIES, PART_CONDITIONS } from "../part-values";
+import { LISTING_STATUSES } from "../listing-status";
 
 const toNull = (value: unknown): unknown => {
   if (
@@ -69,7 +70,7 @@ export const partFormSchema = z.object({
   freeShipping: z.boolean().default(false),
   city: optionalText(),
   location: optionalText(),
-  status: z.string().trim().min(1, "Status is required").max(100),
+  status: z.enum(LISTING_STATUSES, { error: "Status is required" }),
   oemNumber: optionalText(),
   compatibleModelIds: z
     .array(z.bigint())
@@ -93,7 +94,7 @@ export interface PartFormValues {
   freeShipping: boolean;
   city: string | null;
   location: string | null;
-  status: string;
+  status: (typeof LISTING_STATUSES)[number] | "";
   oemNumber: string | null;
   compatibleModelIds: string[];
 }

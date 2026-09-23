@@ -4,16 +4,12 @@ import { loadDatabaseCatalog } from "@/lib/reference/catalog-db";
 import { findBrand, findModel } from "@/lib/reference/slug";
 import { prisma } from "@/lib/server/db";
 import { findPartById } from "@/lib/server/part-queries";
-import { getAllVehicleModelsWithBrands } from "@/lib/server/part-queries";
+import { getBrandsForSelection, getVehicleModelNames } from "@/lib/server/catalog-queries";
 import { serializePart } from "@/lib/server/serialize-part";
 import { partToFormDefaults } from "@/lib/server/serialize-part";
 import { getMediaByParent } from "@/lib/server/media-queries";
-import { Trail } from "@/components/app/trail";
-import { PageHeading } from "@/components/app/page-heading";
 import { PartMultiStepForm } from "@/components/parts/part-multi-step-form";
-import { modelsPath } from "@/lib/modules";
 import { partListingsPath, partViewPath } from "@/lib/part-routes";
-import type { MultiSelectOption } from "@/components/ui/multi-select";
 
 export const metadata: Metadata = {
   title: "Edit part listing",
@@ -45,12 +41,11 @@ export default async function EditPartListingPage({
   });
   if (!navigatedModel) notFound();
 
-  const dbModels = await getAllVehicleModelsWithBrands();
-  const allModels: MultiSelectOption[] = dbModels.map((m) => ({
-    value: m.id,
-    label: `${m.brandName} ${m.name}`,
-    group: m.brandRegion,
-  }));
+  const navigatedModelId = navigatedModel.id.toString();
+  const allBrands = await getBrandsForSelection();
+  const initialSelected = await getVehicleModelNames(
+    row.compatibleModelIds,
+  );
 
   const context = { brandSlug, modelSlug };
 
@@ -58,28 +53,17 @@ export default async function EditPartListingPage({
   const media = await getMediaByParent("part", partId);
 
   return (
-    <div className="flex flex-col gap-6">
-      <Trail
-        items={[
-          { label: "Car Parts", href: "/parts/brands" },
-          { label: brand.name, href: modelsPath("parts", brandSlug) },
-          { label: model.name, href: partListingsPath(brandSlug, modelSlug) },
-          { label: row.title },
-          { label: "Edit" },
-        ]}
-      />
-      <PageHeading
-        title="Edit part listing"
-        description={`Update ${row.title} for ${brand.name} ${model.name}.`}
-      />
+    <div>
       <PartMultiStepForm
         mode="edit"
         context={context}
         partId={id}
         defaults={defaults}
-        cancelHref={partViewPath(brandSlug, modelSlug, id)}
-        allModels={allModels}
-        navigatedModelId={navigatedModel.id.toString()}
+        backHref={partListingsPath(brandSlug, modelSlug)}
+        viewHref={partViewPath(brandSlug, modelSlug, id)}
+        allBrands={allBrands}
+        initialSelected={initialSelected}
+        navigatedModelId={navigatedModelId}
         vehicleLabel={`${brand.name} ${model.name}`}
         initialMedia={media}
       />

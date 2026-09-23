@@ -43,6 +43,32 @@ const SORT_LABELS: Record<SortMode, string> = {
   "fewest-models": "Fewest Models",
 };
 
+type PageItem = number | "ellipsis";
+
+function getPageItems(pageCount: number, activePage: number): PageItem[] {
+  if (pageCount <= 7) {
+    return Array.from({ length: pageCount }, (_, index) => index + 1);
+  }
+  const siblings = 1;
+  const items = new Set<number>([1, pageCount]);
+  for (let page = activePage - siblings; page <= activePage + siblings; page += 1) {
+    if (page >= 1 && page <= pageCount) items.add(page);
+  }
+  const sorted = [...items].sort((first, second) => first - second);
+  const result: PageItem[] = [];
+  sorted.forEach((page, index) => {
+    if (index === 0) {
+      result.push(page);
+      return;
+    }
+    const gap = page - sorted[index - 1];
+    if (gap === 2) result.push(sorted[index - 1] + 1);
+    else if (gap > 2) result.push("ellipsis");
+    result.push(page);
+  });
+  return result;
+}
+
 function getCatalogPageSize() {
   if (typeof window === "undefined") return 20;
   if (window.innerWidth >= 1280) return 20;
@@ -258,19 +284,29 @@ export function VehicleCatalog({ catalog }: { catalog: VehicleCatalogData }) {
                     <ChevronLeftIcon />
                     <span className="hidden sm:inline">Previous</span>
                   </Button>
-                  {Array.from({ length: pageCount }, (_, index) => index + 1).map((page) => (
-                    <Button
-                      key={page}
-                      type="button"
-                      variant={page === activePage ? "default" : "outline"}
-                      size="icon-sm"
-                      onClick={() => setRequestedPage(page)}
-                      aria-label={`Go to brand page ${page}`}
-                      aria-current={page === activePage ? "page" : undefined}
-                    >
-                      {page}
-                    </Button>
-                  ))}
+                  {getPageItems(pageCount, activePage).map((page, index) =>
+                    page === "ellipsis" ? (
+                      <span
+                        key={`ellipsis-${index}`}
+                        className="px-1 text-xs text-muted-foreground"
+                        aria-hidden="true"
+                      >
+                        &hellip;
+                      </span>
+                    ) : (
+                      <Button
+                        key={page}
+                        type="button"
+                        variant={page === activePage ? "default" : "outline"}
+                        size="icon-sm"
+                        onClick={() => setRequestedPage(page)}
+                        aria-label={`Go to brand page ${page}`}
+                        aria-current={page === activePage ? "page" : undefined}
+                      >
+                        {page}
+                      </Button>
+                    ),
+                  )}
                   <Button
                     type="button"
                     variant="outline"

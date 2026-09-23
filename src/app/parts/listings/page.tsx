@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { PageHeading } from "@/components/app/page-heading";
 import { Trail } from "@/components/app/trail";
 import {
   PartListingsTable,
@@ -36,13 +35,8 @@ export default async function AllPartListingsPage() {
   );
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <Trail items={[{ label: "Vehicle Catalog", href: "/" }, { label: "All part listings" }]} />
-      <PageHeading
-        title="All part listings"
-        description="Review compatible part listings across the shared vehicle catalog."
-        backHref="/"
-      />
       <PartListingsTable parts={parts} contexts={contexts} exportScope="part" />
     </div>
   );

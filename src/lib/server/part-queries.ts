@@ -59,35 +59,4 @@ export async function findPartById(rawId: string): Promise<
   });
 }
 
-export async function getAllVehicleModelsForSelection(): Promise<
-  Array<{ id: bigint; vehicleBrandId: bigint; name: string }>
-> {
-  return prisma.vehicleModel.findMany({
-    orderBy: [{ vehicleBrandId: "asc" }, { id: "asc" }],
-    select: { id: true, vehicleBrandId: true, name: true },
-  });
-}
 
-export interface VehicleModelWithBrand {
-  id: string;
-  name: string;
-  brandName: string;
-  brandRegion: string;
-}
-
-export async function getAllVehicleModelsWithBrands(): Promise<VehicleModelWithBrand[]> {
-  const models = await prisma.vehicleModel.findMany({
-    orderBy: [{ vehicleBrandId: "asc" }, { id: "asc" }],
-    select: {
-      id: true,
-      name: true,
-      brand: { select: { name: true, region: true } },
-    },
-  });
-  return models.map((model) => ({
-    id: model.id.toString(),
-    name: model.name,
-    brandName: model.brand.name,
-    brandRegion: model.brand.region,
-  }));
-}

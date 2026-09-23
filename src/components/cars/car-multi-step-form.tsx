@@ -32,6 +32,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { PART_CONDITIONS } from "@/lib/part-values";
+import { LISTING_STATUSES } from "@/lib/listing-status";
 import { DropZone } from "@/components/ui/drop-zone";
 import { ImageGallery } from "@/components/media/image-gallery";
 import {
@@ -175,6 +184,55 @@ function TextField({
             />
           </FormControl>
           {description ? <FormDescription className="text-[11px]">{description}</FormDescription> : null}
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
+
+function SelectField({
+  name,
+  label,
+  options,
+  required,
+  allowNone,
+  className,
+}: {
+  name: keyof CarFormValues;
+  label: string;
+  options: readonly string[];
+  required?: boolean;
+  allowNone?: boolean;
+  className?: string;
+}) {
+  return (
+    <FormField
+      name={name}
+      render={({ field }) => (
+        <FormItem className={cn("gap-1.5", className)}>
+          <FormLabel className="flex min-h-4 items-center text-xs">
+            {label}
+            {required ? <span className="text-destructive"> *</span> : null}
+          </FormLabel>
+          <Select
+            value={field.value || "__none__"}
+            onValueChange={(value) => field.onChange(value === "__none__" ? null : value)}
+          >
+            <FormControl>
+              <SelectTrigger>
+                <SelectValue placeholder={`Select ${label.toLowerCase()}`} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              {allowNone ? <SelectItem value="__none__">None</SelectItem> : null}
+              {options.map((option) => (
+                <SelectItem key={option} value={option}>
+                  {option.replace(/_/g, " ").replace(/\b\w/g, (character) => character.toUpperCase())}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <FormMessage />
         </FormItem>
       )}
@@ -343,8 +401,8 @@ function FormStep({
         <NumberField name="sellerId" label="Seller ID" required min={1} step="1" placeholder="Internal seller ID" />
         <TextField name="brand" label="Vehicle brand" required readOnly description="Taken from the catalog route." />
         <TextField name="model" label="Vehicle model" required readOnly description="Taken from the catalog route." />
-        <TextField name="status" label="Status" required placeholder="e.g. available, sold, reserved" />
-        <TextField name="condition" label="Condition" placeholder="e.g. used" />
+        <SelectField name="status" label="Status" required options={LISTING_STATUSES} />
+        <SelectField name="condition" label="Condition" allowNone options={PART_CONDITIONS} />
         <TextField name="tag" label="Tag" placeholder="e.g. as-is, negotiable" className="sm:col-span-2" />
       </div>
     );

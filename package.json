@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "db:seed": "prisma db seed",
+    "db:seed:cars": "tsx prisma/seed-cars.ts",
+    "db:seed:parts": "tsx prisma/seed-parts.ts",
     "transfer:preflight": "tsx scripts/transfer-preflight.ts"
   },
   "dependencies": {

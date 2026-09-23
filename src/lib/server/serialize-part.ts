@@ -64,7 +64,7 @@ export function partToFormDefaults(part: PartRow): PartFormValues {
     freeShipping: part.freeShipping,
     city: part.city,
     location: part.location,
-    status: part.status,
+    status: part.status as PartFormValues["status"],
     oemNumber: part.oemNumber,
     compatibleModelIds: part.compatibleModelIds,
   };

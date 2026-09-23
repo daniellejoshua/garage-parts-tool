@@ -37,6 +37,7 @@ import { CarRow } from "@/lib/server/serialize-car";
 import type { CarNavContext } from "@/lib/server/car-actions";
 import { carEditPath, carViewPath } from "@/lib/car-routes";
 import { displayValue, formatDateTime, formatPrice, formatWhole } from "@/lib/car-format";
+import { listingStatusClassName } from "@/lib/listing-status";
 import { DeleteCarButton } from "@/components/cars/delete-car-button";
 import { toSlug } from "@/lib/reference/slug";
 import { ExportButton } from "@/components/app/export-button";
@@ -90,20 +91,19 @@ export function CarListingsTable({
     columnHelper.accessor("title", {
       header: "Title",
       cell: ({ row, getValue }) => (
-        <div className="flex flex-col gap-0.5">
+        <div className="flex items-center gap-2">
           <Link
             href={carViewPath(
               context?.brandSlug ?? toSlug(row.original.brand),
               context?.modelSlug ?? toSlug(row.original.model),
               row.id,
             )}
-            className="font-medium text-foreground transition-colors hover:text-primary"
+            title={getValue()}
+            className="max-w-[220px] truncate font-medium text-foreground transition-colors hover:text-primary"
           >
             {getValue()}
           </Link>
-          <span className="text-xs text-muted-foreground">
-            Listing #{row.id}
-          </span>
+          <span className="text-xs text-muted-foreground">#{row.id}</span>
         </div>
       ),
     }),
@@ -132,7 +132,7 @@ export function CarListingsTable({
     }),
     columnHelper.accessor("status", {
       header: "Status",
-      cell: ({ getValue }) => <Badge variant="secondary">{getValue()}</Badge>,
+      cell: ({ getValue }) => <Badge className={listingStatusClassName(getValue())}>{getValue()}</Badge>,
     }),
     columnHelper.accessor("city", {
       header: "City",
@@ -152,10 +152,10 @@ export function CarListingsTable({
         };
 
         return (
-          <div className="flex items-center justify-end gap-1">
+          <div className="flex items-center justify-end gap-0.5">
           <Button
             variant="ghost"
-            size="icon"
+            size="icon-sm"
             render={<Link href={carViewPath(rowContext.brandSlug, rowContext.modelSlug, row.id)} />}
             aria-label={`View ${row.original.title}`}
           >
@@ -163,7 +163,7 @@ export function CarListingsTable({
           </Button>
           <Button
             variant="ghost"
-            size="icon"
+            size="icon-sm"
             render={<Link href={carEditPath(rowContext.brandSlug, rowContext.modelSlug, row.id)} />}
             aria-label={`Edit ${row.original.title}`}
           >
@@ -174,7 +174,7 @@ export function CarListingsTable({
             carId={row.id}
             carTitle={row.original.title}
             variant="ghost"
-            size="icon"
+            size="icon-sm"
             iconOnly
           />
           </div>
@@ -198,27 +198,26 @@ export function CarListingsTable({
     getRowId: (row) => row.id,
   });
 
-  const { pageIndex } = table.getState().pagination;
+  const { pageIndex, pageSize } = table.getState().pagination;
   const pageCount = table.getPageCount();
   const filteredCount = table.getFilteredRowModel().rows.length;
+  const rangeStart = filteredCount === 0 ? 0 : pageIndex * pageSize + 1;
+  const rangeEnd = Math.min((pageIndex + 1) * pageSize, filteredCount);
 
   return (
-    <div className="flex flex-col gap-5 rounded-xl border border-border bg-card p-4 sm:p-5">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-3 sm:p-4">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative w-full sm:max-w-xs">
           <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={globalFilter}
             onChange={(event) => setGlobalFilter(event.target.value)}
             placeholder="Search listings"
-            className="pl-10"
+            className="h-8 pl-10 text-sm"
             aria-label="Search listings"
           />
         </div>
         <div className="flex items-center justify-between gap-3 sm:justify-end">
-          <p className="text-sm text-muted-foreground">
-            {filteredCount} of {cars.length} listing{cars.length === 1 ? "" : "s"}
-          </p>
           {exportScope ? <ExportButton scope={exportScope} disabled={filteredCount === 0} /> : null}
         </div>
       </div>
@@ -275,11 +274,13 @@ export function CarListingsTable({
         </Table>
       </div>
 
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
-          Page {pageCount === 0 ? 0 : pageIndex + 1} of {pageCount}
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs text-muted-foreground">
+          {filteredCount === 0
+            ? "No results"
+            : `Showing ${rangeStart}–${rangeEnd} of ${filteredCount}`}
         </p>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <Button
             variant="outline"
             size="sm"
@@ -289,6 +290,9 @@ export function CarListingsTable({
             <ChevronLeftIcon />
             Previous
           </Button>
+          <span className="text-xs text-muted-foreground">
+            {pageCount === 0 ? 0 : pageIndex + 1}/{pageCount}
+          </span>
           <Button
             variant="outline"
             size="sm"

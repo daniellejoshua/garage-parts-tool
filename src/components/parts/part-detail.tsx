@@ -15,6 +15,7 @@ import {
   displayValue,
   formatDateTime,
 } from "@/lib/car-format";
+import { listingStatusClassName } from "@/lib/listing-status";
 
 function Detail({ label, value }: { label: string; value: ReactNode }) {
   return (
@@ -46,7 +47,7 @@ export function PartDetail({
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <Badge className="bg-status-unknown text-status-unknown-foreground">{part.status}</Badge>
+          <Badge className={listingStatusClassName(part.status)}>{part.status}</Badge>
           <span className="text-xs text-muted-foreground">#{part.id}</span>
           <Button variant="ghost" size="sm" render={<Link href={partEditPath(context.brandSlug, context.modelSlug, part.id)} />}>
             <PencilIcon /> Edit

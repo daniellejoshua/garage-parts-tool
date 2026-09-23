@@ -16,12 +16,7 @@ import type { CarNavContext } from "@/lib/server/car-actions";
 import type { MediaRow } from "@/lib/server/media-queries";
 import { carEditPath } from "@/lib/car-routes";
 import { displayValue, formatDateTime, formatWhole } from "@/lib/car-format";
-
-function statusTone(status: string) {
-  return ["active", "available", "published", "ready"].includes(status.toLowerCase())
-    ? "bg-status-current text-status-current-foreground"
-    : "bg-status-unknown text-status-unknown-foreground";
-}
+import { listingStatusClassName } from "@/lib/listing-status";
 
 function Detail({ label, value }: { label: string; value: ReactNode }) {
   return (
@@ -29,19 +24,6 @@ function Detail({ label, value }: { label: string; value: ReactNode }) {
       <dt className="text-[11px] font-medium text-muted-foreground">{label}</dt>
       <dd className="mt-0.5 truncate text-[13px] font-medium text-foreground">{value}</dd>
     </div>
-  );
-}
-
-function MoreActions() {
-  return (
-    <details className="relative">
-      <summary className="flex h-8 cursor-pointer list-none items-center justify-center gap-1.5 rounded-md border border-border bg-background px-2.5 text-[0.8rem] font-medium text-foreground transition hover:bg-muted [&::-webkit-details-marker]:hidden">
-        More
-      </summary>
-      <div className="absolute right-0 z-20 mt-2 w-48 rounded-lg border border-border bg-card p-1 text-sm shadow-lg">
-        <span className="block rounded-md px-3 py-2 text-muted-foreground">No additional actions</span>
-      </div>
-    </details>
   );
 }
 
@@ -56,7 +38,7 @@ export function CarDetail({
 }) {
   const location = [car.city, car.location].filter(Boolean).join(", ") || "—";
   const bodyStyle = displayValue(car.bodyStyle);
-  const statusClassName = statusTone(car.status);
+  const statusClassName = listingStatusClassName(car.status);
 
   return (
     <div className="space-y-3">
@@ -74,7 +56,6 @@ export function CarDetail({
             <PencilIcon className="size-3.5" />
             <span className="sr-only">Edit {car.title}</span>
           </Button>
-          <MoreActions />
           <DeleteCarButton context={context} carId={car.id} carTitle={car.title} variant="ghost" size="sm" iconOnly />
         </div>
       </section>

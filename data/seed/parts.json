@@ -1,0 +1,401 @@
+[
+  {
+    "title": "Brembo brake pad set - front",
+    "category": "brakes",
+    "brand": "Brembo",
+    "part_number": "P85061N",
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 4,
+    "price": 1450,
+    "original_price": 1650,
+    "tag": "front axle",
+    "free_shipping": true,
+    "city": "Las Pinas",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Honda", "model": "Civic" },
+      { "brand": "Honda", "model": "Accord" }
+    ]
+  },
+  {
+    "title": "Denso alternator 130A",
+    "category": "electrical",
+    "brand": "Denso",
+    "part_number": "101211-4130",
+    "oem_number": null,
+    "condition": "refurbished",
+    "quantity": 1,
+    "price": 9800,
+    "original_price": 12000,
+    "tag": null,
+    "free_shipping": false,
+    "city": "Mandaluyong",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Toyota", "model": "Corolla" },
+      { "brand": "Toyota", "model": "Camry" }
+    ]
+  },
+  {
+    "title": "Mobil 1 full synthetic engine oil 5W-30 (1L)",
+    "category": "fluids_lubricants",
+    "brand": "Mobil",
+    "part_number": null,
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 6,
+    "price": 650,
+    "original_price": null,
+    "tag": null,
+    "free_shipping": true,
+    "city": "Quezon City",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Ford", "model": "Focus" }
+    ]
+  },
+  {
+    "title": "Brembo drilled brake rotor set - front",
+    "category": "brakes",
+    "brand": "Brembo",
+    "part_number": "09.5645.11",
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 2,
+    "price": 8900,
+    "original_price": null,
+    "tag": "performance",
+    "free_shipping": true,
+    "city": "Las Pinas",
+    "location": "Metro Manila",
+    "status": "pending inspection",
+    "compatibility": [
+      { "brand": "Honda", "model": "Civic" },
+      { "brand": "Honda", "model": "Accord" }
+    ]
+  },
+  {
+    "title": "Bosch lambda oxygen sensor",
+    "category": "electrical",
+    "brand": "Bosch",
+    "part_number": "0258007157",
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 3,
+    "price": 2400,
+    "original_price": 2800,
+    "tag": null,
+    "free_shipping": false,
+    "city": "Manila",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Toyota", "model": "Corolla" },
+      { "brand": "Toyota", "model": "Camry" }
+    ]
+  },
+  {
+    "title": "NGK iridium spark plug set",
+    "category": "engine",
+    "brand": "NGK",
+    "part_number": "SILZKR7B11",
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 8,
+    "price": 480,
+    "original_price": 550,
+    "tag": null,
+    "free_shipping": true,
+    "city": "Quezon City",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Honda", "model": "Civic" },
+      { "brand": "Honda", "model": "CR-V" }
+    ]
+  },
+  {
+    "title": "KYB shock absorber front set",
+    "category": "suspension",
+    "brand": "KYB",
+    "part_number": "334374",
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 2,
+    "price": 6800,
+    "original_price": null,
+    "tag": "front set",
+    "free_shipping": false,
+    "city": "Caloocan",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Toyota", "model": "Hilux" },
+      { "brand": "Toyota", "model": "Fortuner" }
+    ]
+  },
+  {
+    "title": "Sachs clutch kit",
+    "category": "transmission",
+    "brand": "Sachs",
+    "part_number": "3000 951 001",
+    "oem_number": null,
+    "condition": "refurbished",
+    "quantity": 0,
+    "price": 12500,
+    "original_price": 14500,
+    "tag": null,
+    "free_shipping": true,
+    "city": "Pasig City",
+    "location": "Metro Manila",
+    "status": "sold",
+    "compatibility": [
+      { "brand": "Ford", "model": "Ranger" },
+      { "brand": "Ford", "model": "Escape" }
+    ]
+  },
+  {
+    "title": "Denso air-conditioning compressor",
+    "category": "electrical",
+    "brand": "Denso",
+    "part_number": "447190-5360",
+    "oem_number": null,
+    "condition": "refurbished",
+    "quantity": 1,
+    "price": 18500,
+    "original_price": 21000,
+    "tag": null,
+    "free_shipping": false,
+    "city": "Mandaluyong",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Toyota", "model": "Innova" },
+      { "brand": "Mitsubishi", "model": "Xpander" }
+    ]
+  },
+  {
+    "title": "Castrol Edge 5W-30 full synthetic (4L)",
+    "category": "fluids_lubricants",
+    "brand": "Castrol",
+    "part_number": null,
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 10,
+    "price": 2350,
+    "original_price": null,
+    "tag": null,
+    "free_shipping": true,
+    "city": "Makati City",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "BMW", "model": "3 Series" },
+      { "brand": "BMW", "model": "X3" }
+    ]
+  },
+  {
+    "title": "Bridgestone Dueler A/T 265/65R17",
+    "category": "tires_wheels",
+    "brand": "Bridgestone",
+    "part_number": "D697",
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 0,
+    "price": 12800,
+    "original_price": 13800,
+    "tag": "all-terrain",
+    "free_shipping": true,
+    "city": "Manila",
+    "location": "Metro Manila",
+    "status": "sold",
+    "compatibility": [
+      { "brand": "Toyota", "model": "Hilux" },
+      { "brand": "Nissan", "model": "Navara" }
+    ]
+  },
+  {
+    "title": "Mann timing belt kit",
+    "category": "engine",
+    "brand": "Mann",
+    "part_number": "TBK 216",
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 3,
+    "price": 4200,
+    "original_price": 4600,
+    "tag": null,
+    "free_shipping": false,
+    "city": "Quezon City",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Honda", "model": "Civic" },
+      { "brand": "Honda", "model": "Accord" }
+    ]
+  },
+  {
+    "title": "Hella projector headlight assembly",
+    "category": "body_exterior",
+    "brand": "Hella",
+    "part_number": "1AA 010 119-221",
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 2,
+    "price": 15800,
+    "original_price": null,
+    "tag": null,
+    "free_shipping": false,
+    "city": "Caloocan",
+    "location": "Metro Manila",
+    "status": "rejected",
+    "compatibility": [
+      { "brand": "Chevrolet", "model": "Silverado" },
+      { "brand": "Chevrolet", "model": "Colorado" }
+    ]
+  },
+  {
+    "title": "Osram H7 LED bulb pair",
+    "category": "electrical",
+    "brand": "Osram",
+    "part_number": "64217LED",
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 20,
+    "price": 1850,
+    "original_price": 2100,
+    "tag": "LED",
+    "free_shipping": true,
+    "city": "Manila",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Ford", "model": "Focus" },
+      { "brand": "Honda", "model": "Civic" },
+      { "brand": "Toyota", "model": "Corolla" }
+    ]
+  },
+  {
+    "title": "Ferodo rear brake pad set",
+    "category": "brakes",
+    "brand": "Ferodo",
+    "part_number": "FSF4097",
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 4,
+    "price": 1250,
+    "original_price": null,
+    "tag": "rear axle",
+    "free_shipping": true,
+    "city": "Las Pinas",
+    "location": "Metro Manila",
+    "status": "pending inspection",
+    "compatibility": [
+      { "brand": "Ford", "model": "Mustang" },
+      { "brand": "Chevrolet", "model": "Camaro" }
+    ]
+  },
+  {
+    "title": "Gates serpentine belt",
+    "category": "engine",
+    "brand": "Gates",
+    "part_number": "K060965",
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 6,
+    "price": 950,
+    "original_price": 1100,
+    "tag": null,
+    "free_shipping": false,
+    "city": "Pasig City",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Mazda", "model": "CX-5" },
+      { "brand": "Toyota", "model": "RAV4" }
+    ]
+  },
+  {
+    "title": "Bilstein rear shock absorber pair",
+    "category": "suspension",
+    "brand": "Bilstein",
+    "part_number": "24-114421",
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 2,
+    "price": 16200,
+    "original_price": 17500,
+    "tag": "rear set",
+    "free_shipping": false,
+    "city": "Bonifacio Global City",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Mercedes-Benz", "model": "C-Class" },
+      { "brand": "BMW", "model": "3 Series" }
+    ]
+  },
+  {
+    "title": "Valeo aluminum radiator",
+    "category": "engine",
+    "brand": "Valeo",
+    "part_number": "HD 14-002",
+    "oem_number": null,
+    "condition": "refurbished",
+    "quantity": 1,
+    "price": 18500,
+    "original_price": 21000,
+    "tag": null,
+    "free_shipping": true,
+    "city": "Mandaluyong",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Nissan", "model": "Navara" },
+      { "brand": "Isuzu", "model": "D-Max" }
+    ]
+  },
+  {
+    "title": "Bosal rear muffler",
+    "category": "exhaust",
+    "brand": "Bosal",
+    "part_number": "212-157",
+    "oem_number": null,
+    "condition": "used",
+    "quantity": 1,
+    "price": 5200,
+    "original_price": null,
+    "tag": "as-is",
+    "free_shipping": false,
+    "city": "Caloocan",
+    "location": "Metro Manila",
+    "status": "rejected",
+    "compatibility": [
+      { "brand": "Ford", "model": "Ranger" },
+      { "brand": "Chevrolet", "model": "Colorado" }
+    ]
+  },
+  {
+    "title": "Meguiar's interior cleaning kit",
+    "category": "interior",
+    "brand": "Meguiar's",
+    "part_number": null,
+    "oem_number": null,
+    "condition": "new",
+    "quantity": 12,
+    "price": 890,
+    "original_price": 990,
+    "tag": "universal",
+    "free_shipping": true,
+    "city": "Quezon City",
+    "location": "Metro Manila",
+    "status": "available",
+    "compatibility": [
+      { "brand": "Toyota", "model": "Vios" }
+    ]
+  }
+]

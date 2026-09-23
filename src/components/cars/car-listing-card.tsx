@@ -23,6 +23,7 @@ import type { MediaRow } from "@/lib/server/media-queries";
 import type { StagedImage } from "@/components/media/staged-image-picker";
 import { usePresignedMediaUrls } from "@/components/media/use-presigned-media-urls";
 import { formatPrice, formatWhole } from "@/lib/car-format";
+import { listingStatusClassName } from "@/lib/listing-status";
 import type { CarFormValues } from "@/lib/validations/car";
 
 function PreviewItem({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
@@ -88,7 +89,7 @@ export function CarListingCard({
               </p>
             </div>
           </div>
-          <span className="rounded-md bg-status-unknown px-3 py-1 text-xs font-medium text-status-unknown-foreground">{status}</span>
+          <span className={cn("rounded-md px-3 py-1 text-xs font-medium", listingStatusClassName(status))}>{status}</span>
         </div>
       </CardHeader>
 

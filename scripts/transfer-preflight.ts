@@ -1,5 +1,7 @@
 #!/usr/bin/env tsx
 
+import "dotenv/config";
+
 async function main() {
   try {
     console.log("🔍 Starting test...");

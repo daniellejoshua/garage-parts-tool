@@ -38,8 +38,14 @@ import type { PartNavContext } from "@/lib/server/part-actions";
 import { partEditPath, partViewPath } from "@/lib/part-routes";
 import { displayValue, formatDateTime, formatPrice, formatWhole } from "@/lib/car-format";
 import { DeletePartButton } from "@/components/parts/delete-part-button";
+import { ExportButton } from "@/components/app/export-button";
 
 const columnHelper = createColumnHelper<PartRow>();
+
+export interface PartListingContext extends PartNavContext {
+  brandName: string;
+  modelName: string;
+}
 
 function SortHeader({ column, children }: {
   column: Column<PartRow>;
@@ -67,31 +73,58 @@ function SortHeader({ column, children }: {
 export function PartListingsTable({
   parts,
   context,
+  contexts,
+  exportScope,
 }: {
   parts: PartRow[];
-  context: PartNavContext;
+  context?: PartNavContext;
+  contexts?: Record<string, PartListingContext>;
+  exportScope?: "part";
 }) {
   const [sorting, setSorting] = useState([{ id: "createdAt", desc: true }]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
+  const vehicleColumns = context
+    ? []
+    : [
+        columnHelper.display({
+          id: "vehicle",
+          header: "Vehicle context",
+          cell: ({ row }) => {
+            const rowContext = contexts?.[row.id];
+            return rowContext
+              ? `${rowContext.brandName} ${rowContext.modelName}`
+              : "No compatibility";
+          },
+        }),
+      ];
+
   const columns = [
     columnHelper.accessor("title", {
       header: "Title",
-      cell: ({ row, getValue }) => (
-        <div className="flex flex-col gap-0.5">
-          <Link
-            href={partViewPath(context.brandSlug, context.modelSlug, row.id)}
-            className="font-medium text-foreground transition-colors hover:text-primary"
-          >
-            {getValue()}
-          </Link>
+      cell: ({ row, getValue }) => {
+        const rowContext = context ?? contexts?.[row.id];
+        return (
+          <div className="flex flex-col gap-0.5">
+          {rowContext ? (
+            <Link
+              href={partViewPath(rowContext.brandSlug, rowContext.modelSlug, row.id)}
+              className="font-medium text-foreground transition-colors hover:text-primary"
+            >
+              {getValue()}
+            </Link>
+          ) : (
+            <span className="font-medium text-foreground">{getValue()}</span>
+          )}
           <span className="text-xs text-muted-foreground">
             Listing #{row.id}
           </span>
         </div>
-      ),
+        );
+      },
     }),
+    ...vehicleColumns,
     columnHelper.accessor("category", {
       header: "Category",
       cell: ({ getValue }) => <Badge variant="secondary">{getValue()}</Badge>,
@@ -129,32 +162,41 @@ export function PartListingsTable({
     columnHelper.display({
       id: "actions",
       header: () => <span className="sr-only">Actions</span>,
-      cell: ({ row }) => (
-        <div className="flex items-center justify-end gap-1">
+      cell: ({ row }) => {
+        const rowContext = context ?? contexts?.[row.id];
+        if (!rowContext) {
+          return <span className="text-xs text-muted-foreground">Unavailable</span>;
+        }
+
+        return (
+          <div className="flex items-center justify-end gap-1">
           <Button
             variant="ghost"
             size="icon"
-            render={<Link href={partViewPath(context.brandSlug, context.modelSlug, row.id)} />}
+            render={<Link href={partViewPath(rowContext.brandSlug, rowContext.modelSlug, row.id)} />}
+            aria-label={`View ${row.original.title}`}
           >
             <EyeIcon />
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            render={<Link href={partEditPath(context.brandSlug, context.modelSlug, row.id)} />}
+            render={<Link href={partEditPath(rowContext.brandSlug, rowContext.modelSlug, row.id)} />}
+            aria-label={`Edit ${row.original.title}`}
           >
             <PencilIcon />
           </Button>
           <DeletePartButton
-            context={context}
+            context={rowContext}
             partId={row.id}
             partTitle={row.original.title}
             variant="ghost"
             size="icon"
             iconOnly
           />
-        </div>
-      ),
+          </div>
+        );
+      },
     }),
   ];
 
@@ -175,6 +217,7 @@ export function PartListingsTable({
 
   const { pageIndex } = table.getState().pagination;
   const pageCount = table.getPageCount();
+  const filteredCount = table.getFilteredRowModel().rows.length;
 
   return (
     <div className="flex flex-col gap-5 rounded-xl border border-border bg-card p-4 sm:p-5">
@@ -189,8 +232,9 @@ export function PartListingsTable({
             aria-label="Search listings"
           />
         </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <span>{table.getFilteredRowModel().rows.length} result(s)</span>
+        <div className="flex items-center justify-between gap-3 sm:justify-end">
+          <span className="text-sm text-muted-foreground">{filteredCount} result(s)</span>
+          {exportScope ? <ExportButton scope={exportScope} disabled={filteredCount === 0} /> : null}
         </div>
       </div>
 

@@ -32,6 +32,7 @@ export default async function CarListingDetailPage({
   if (!car) notFound();
 
   const row = serializeCar(car);
+  if (row.brand !== brand.name || row.model !== model.name) notFound();
   const context = { brandSlug, modelSlug };
 
   const carId = BigInt(id);

@@ -31,6 +31,10 @@ export function modelsPath(module: ModuleSlug, brandSlug: string): string {
   return `${MODULES[module].brandsPath}/${brandSlug}/models`;
 }
 
+export function catalogModelsPath(brandSlug: string): string {
+  return `/brands/${brandSlug}/models`;
+}
+
 export function listingsPath(
   module: ModuleSlug,
   brandSlug: string,

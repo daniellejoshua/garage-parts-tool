@@ -22,6 +22,10 @@ export async function findCarsByBrandModel(
   });
 }
 
+export async function findAllCars(): Promise<Car[]> {
+  return prisma.car.findMany({ orderBy: { createdAt: "desc" } });
+}
+
 export async function findCarById(rawId: string): Promise<Car | null> {
   const id = carIdToBigInt(rawId);
   if (id === null) return null;

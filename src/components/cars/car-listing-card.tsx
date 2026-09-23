@@ -41,11 +41,13 @@ export function CarListingCard({
   values,
   media,
   stagedImages = [],
+  detailPanel = false,
 }: {
   values: CarFormValues;
   media: MediaRow[];
   stagedImages?: StagedImage[];
   preview?: boolean;
+  detailPanel?: boolean;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(
     media.find((item) => item.isPrimary)?.id ?? media[0]?.id ?? null,
@@ -74,22 +76,24 @@ export function CarListingCard({
   }
 
   return (
-    <Card className="gap-0 rounded-xl py-0 shadow-sm">
-      <CardHeader className="border-b border-border px-4 py-3">
+    <Card className={cn("gap-0 rounded-xl py-0 shadow-sm", detailPanel && "h-full min-h-0")}>
+      <CardHeader className={cn("border-b border-border px-4 py-3", detailPanel && "h-[72px] shrink-0 bg-muted/20")}>
         <div className="flex items-start justify-between gap-3">
           <div className="flex gap-3">
             <EyeIcon className="mt-0.5 size-5 text-foreground" />
             <div>
               <h2 className="text-base font-semibold">Listing Preview</h2>
-              <p className="mt-0.5 text-xs text-muted-foreground">This is how your listing will appear to buyers.</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {detailPanel ? "Marketplace presentation." : "This is how your listing will appear to buyers."}
+              </p>
             </div>
           </div>
           <span className="rounded-md bg-status-unknown px-3 py-1 text-xs font-medium text-status-unknown-foreground">{status}</span>
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-2.5 px-4 py-3.5">
-        <div className="relative h-52 overflow-hidden rounded-lg bg-muted/45">
+      <CardContent className={cn("space-y-2.5 px-4 py-3.5", detailPanel && "min-h-0 flex-1 overflow-y-auto py-4")}>
+        <div className={cn("relative h-52 overflow-hidden rounded-lg bg-muted/45", detailPanel && "h-[clamp(11rem,27vh,15rem)]")}>
           {selected?.url ? (
             <Image src={selected.url} alt={selected.alt} fill unoptimized sizes="(min-width: 1024px) 34vw, 100vw" className="object-contain" />
           ) : selected && !selected.resolved ? (
@@ -153,7 +157,7 @@ export function CarListingCard({
           {values.originalPrice !== null ? <p className="text-sm text-muted-foreground line-through">₱{formatPrice(values.originalPrice)}</p> : null}
         </div>
 
-        <div className="grid grid-cols-2 gap-x-3 gap-y-2.5 border-t border-border pt-3">
+        {!detailPanel ? <div className="grid grid-cols-2 gap-x-3 gap-y-2.5 border-t border-border pt-3">
           <PreviewItem icon={<CalendarIcon className="size-4" />} label="Year" value={value(values.year)} />
           <PreviewItem icon={<CarFrontIcon className="size-4" />} label="Body Style" value={value(values.bodyStyle)} />
           <PreviewItem icon={<CircleGaugeIcon className="size-4" />} label="Mileage" value={values.mileageKm === null ? "Not set" : `${formatWhole(values.mileageKm)} km`} />
@@ -162,9 +166,9 @@ export function CarListingCard({
           <PreviewItem icon={<ImageIcon className="size-4" />} label="Condition" value={value(values.condition)} />
           <PreviewItem icon={<PaletteIcon className="size-4" />} label="Color" value={value(values.color)} />
           <PreviewItem icon={<MapPinIcon className="size-4" />} label="Location" value={location} />
-        </div>
+        </div> : null}
 
-        <p className="text-center text-[11px] text-muted-foreground">Preview updates automatically as you edit the form.</p>
+        {!detailPanel ? <p className="text-center text-[11px] text-muted-foreground">Preview updates automatically as you edit the form.</p> : null}
       </CardContent>
     </Card>
   );

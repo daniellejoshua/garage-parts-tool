@@ -9,6 +9,7 @@ import { Trail } from "@/components/app/trail";
 import { PartDetail } from "@/components/parts/part-detail";
 import { modelsPath } from "@/lib/modules";
 import { listingsPath } from "@/lib/modules";
+import { prisma } from "@/lib/server/db";
 
 export const metadata: Metadata = {
   title: "Part listing",
@@ -30,6 +31,19 @@ export default async function PartListingDetailPage({
 
   const part = await findPartById(id);
   if (!part) notFound();
+
+  const databaseModel = await prisma.vehicleModel.findFirst({
+    where: { name: model.name, brand: { name: brand.name } },
+    select: { id: true },
+  });
+  if (
+    !databaseModel ||
+    !part.compatibilities.some(
+      (compatibility) => compatibility.vehicleModelId === databaseModel.id,
+    )
+  ) {
+    notFound();
+  }
 
   const row = serializePart(part, part.compatibilities.map((c) => c.vehicleModelId.toString()));
   const context = { brandSlug, modelSlug };

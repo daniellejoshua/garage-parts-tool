@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { CarFrontIcon, ChevronRightIcon, SearchIcon, WrenchIcon } from "lucide-react";
 import type { VehicleBrand, VehicleModel } from "@/lib/reference/types";
 import type { ModuleSlug } from "@/lib/modules";
-import { MODULES, listingsPath, modelsPath } from "@/lib/modules";
+import { catalogModelsPath, MODULES, listingsPath, modelsPath } from "@/lib/modules";
 import { toSlug } from "@/lib/reference/slug";
 import { Trail } from "@/components/app/trail";
 import { PageHeading } from "@/components/app/page-heading";
@@ -44,10 +44,12 @@ export function ModelSelector({
   module,
   brand,
   brandSlug,
+  catalogEntry = false,
 }: {
   module: ModuleSlug;
   brand: VehicleBrand;
   brandSlug: string;
+  catalogEntry?: boolean;
 }) {
   const definition = MODULES[module];
   const Icon = MODULE_ICONS[module];
@@ -62,14 +64,25 @@ export function ModelSelector({
     <div className="flex flex-col gap-7">
       <Trail
         items={[
-          { label: definition.label, href: definition.brandsPath },
-          { label: brand.name, href: modelsPath(module, brandSlug) },
+          {
+            label: catalogEntry ? "Vehicle Catalog" : definition.label,
+            href: catalogEntry ? "/" : definition.brandsPath,
+          },
+          {
+            label: brand.name,
+            href: catalogEntry ? catalogModelsPath(brandSlug) : modelsPath(module, brandSlug),
+          },
           { label: "Models" },
         ]}
       />
       <PageHeading
         title={`${brand.name} models`}
-        description={`Select a model to manage ${definition.listingLabel} listings.`}
+        description={
+          catalogEntry
+            ? "Select a model to view its car and compatible parts listings."
+            : `Select a model to manage ${definition.listingLabel} listings.`
+        }
+        backHref={catalogEntry ? "/" : undefined}
       />
 
       {brand.models.length === 0 ? (

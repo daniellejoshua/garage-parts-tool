@@ -13,6 +13,7 @@ import { PageHeading } from "@/components/app/page-heading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CarListingsTable } from "@/components/cars/car-listings-table";
+import { ListingModuleSwitcher } from "@/components/app/listing-module-switcher";
 
 export const metadata: Metadata = {
   title: "Car listings",
@@ -50,12 +51,18 @@ export default async function CarListingsPage({
       <PageHeading
         title={`${brand.name} ${model.name} listings`}
         description="Manage individual car listings for this vehicle."
+        backHref={modelsPath("cars", brandSlug)}
         aside={
           <Button render={<Link href={carNewPath(brandSlug, modelSlug)} />}>
             <PlusIcon />
             Add car listing
           </Button>
         }
+      />
+      <ListingModuleSwitcher
+        active="cars"
+        brandSlug={brandSlug}
+        modelSlug={modelSlug}
       />
 
       {cars.length === 0 ? (

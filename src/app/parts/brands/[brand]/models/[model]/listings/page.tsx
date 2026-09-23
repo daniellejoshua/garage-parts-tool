@@ -13,6 +13,7 @@ import { PartListingsTable } from "@/components/parts/part-listings-table";
 import { modelsPath } from "@/lib/modules";
 import { partNewPath } from "@/lib/part-routes";
 import { listingsPath } from "@/lib/modules";
+import { ListingModuleSwitcher } from "@/components/app/listing-module-switcher";
 
 export const metadata: Metadata = {
   title: "Parts listings",
@@ -56,11 +57,17 @@ export default async function PartsListingsPage({
       <PageHeading
         title={`${brand.name} ${model.name} compatible parts`}
         description="Manage individual part listings compatible with this vehicle."
+        backHref={modelsPath("parts", brandSlug)}
         aside={
           <Button render={<Link href={partNewPath(brandSlug, modelSlug)} />}>
             Add part listing
           </Button>
         }
+      />
+      <ListingModuleSwitcher
+        active="parts"
+        brandSlug={brandSlug}
+        modelSlug={modelSlug}
       />
 
       <PartListingsTable

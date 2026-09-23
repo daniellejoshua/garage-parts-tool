@@ -19,7 +19,6 @@ import {
   ChevronRightIcon,
   ChevronsUpDownIcon,
   EyeIcon,
-  ImagesIcon,
   PencilIcon,
   SearchIcon,
 } from "lucide-react";
@@ -39,6 +38,8 @@ import type { CarNavContext } from "@/lib/server/car-actions";
 import { carEditPath, carViewPath } from "@/lib/car-routes";
 import { displayValue, formatDateTime, formatPrice, formatWhole } from "@/lib/car-format";
 import { DeleteCarButton } from "@/components/cars/delete-car-button";
+import { toSlug } from "@/lib/reference/slug";
+import { ExportButton } from "@/components/app/export-button";
 
 const columnHelper = createColumnHelper<CarRow>();
 
@@ -68,13 +69,22 @@ function SortHeader({ column, children }: {
 export function CarListingsTable({
   cars,
   context,
+  exportScope,
 }: {
   cars: CarRow[];
-  context: CarNavContext;
+  context?: CarNavContext;
+  exportScope?: "car";
 }) {
   const [sorting, setSorting] = useState([{ id: "createdAt", desc: true }]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+
+  const vehicleColumns = context
+    ? []
+    : [
+        columnHelper.accessor("brand", { header: "Brand" }),
+        columnHelper.accessor("model", { header: "Model" }),
+      ];
 
   const columns = [
     columnHelper.accessor("title", {
@@ -82,7 +92,11 @@ export function CarListingsTable({
       cell: ({ row, getValue }) => (
         <div className="flex flex-col gap-0.5">
           <Link
-            href={carViewPath(context.brandSlug, context.modelSlug, row.id)}
+            href={carViewPath(
+              context?.brandSlug ?? toSlug(row.original.brand),
+              context?.modelSlug ?? toSlug(row.original.model),
+              row.id,
+            )}
             className="font-medium text-foreground transition-colors hover:text-primary"
           >
             {getValue()}
@@ -93,6 +107,7 @@ export function CarListingsTable({
         </div>
       ),
     }),
+    ...vehicleColumns,
     columnHelper.accessor("sellerId", {
       header: "Seller",
       cell: ({ getValue }) => displayValue(getValue()),
@@ -130,42 +145,41 @@ export function CarListingsTable({
     columnHelper.display({
       id: "actions",
       header: () => <span className="sr-only">Actions</span>,
-      cell: ({ row }) => (
-        <div className="flex items-center justify-end gap-1">
+      cell: ({ row }) => {
+        const rowContext = context ?? {
+          brandSlug: toSlug(row.original.brand),
+          modelSlug: toSlug(row.original.model),
+        };
+
+        return (
+          <div className="flex items-center justify-end gap-1">
           <Button
             variant="ghost"
             size="icon"
-            render={<Link href={carViewPath(context.brandSlug, context.modelSlug, row.id)} />}
+            render={<Link href={carViewPath(rowContext.brandSlug, rowContext.modelSlug, row.id)} />}
+            aria-label={`View ${row.original.title}`}
           >
             <EyeIcon />
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            render={<Link href={carEditPath(context.brandSlug, context.modelSlug, row.id)} />}
+            render={<Link href={carEditPath(rowContext.brandSlug, rowContext.modelSlug, row.id)} />}
             aria-label={`Edit ${row.original.title}`}
           >
             <PencilIcon />
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            render={<Link href={`${carEditPath(context.brandSlug, context.modelSlug, row.id)}?section=media`} />}
-            aria-label={`Manage images for ${row.original.title}`}
-            title="Manage Images"
-          >
-            <ImagesIcon />
-          </Button>
           <DeleteCarButton
-            context={context}
+            context={rowContext}
             carId={row.id}
             carTitle={row.original.title}
             variant="ghost"
             size="icon"
             iconOnly
           />
-        </div>
-      ),
+          </div>
+        );
+      },
     }),
   ];
 
@@ -201,9 +215,12 @@ export function CarListingsTable({
             aria-label="Search listings"
           />
         </div>
-        <p className="text-sm text-muted-foreground">
-          {filteredCount} of {cars.length} listing{cars.length === 1 ? "" : "s"}
-        </p>
+        <div className="flex items-center justify-between gap-3 sm:justify-end">
+          <p className="text-sm text-muted-foreground">
+            {filteredCount} of {cars.length} listing{cars.length === 1 ? "" : "s"}
+          </p>
+          {exportScope ? <ExportButton scope={exportScope} disabled={filteredCount === 0} /> : null}
+        </div>
       </div>
 
       <div className="overflow-hidden rounded-lg border bg-card">

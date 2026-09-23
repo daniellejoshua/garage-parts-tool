@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
   CarFrontIcon,
-  LayoutDashboardIcon,
+  LibraryBigIcon,
   MenuIcon,
   WrenchIcon,
 } from "lucide-react";
@@ -22,10 +22,11 @@ import {
 
 const NAV_ITEMS = [
   {
-    label: "Dashboard",
+    label: "Vehicle Catalog",
     href: "/",
-    icon: LayoutDashboardIcon,
-    active: (pathname: string) => pathname === "/",
+    icon: LibraryBigIcon,
+    active: (pathname: string) =>
+      pathname === "/" || pathname.startsWith("/brands/"),
   },
   {
     label: "Cars",
@@ -47,13 +48,10 @@ function Brand() {
       href="/"
       className="flex min-w-0 items-center gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     >
-      <span className="relative flex h-8 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-primary text-xs font-semibold tracking-[0.08em] text-primary-foreground">
-        <span className="absolute inset-x-0 bottom-0 h-1 bg-gold" />
-        GAP
-      </span>
+
       <span className="hidden min-w-0 sm:block">
         <span className="block truncate text-sm font-semibold text-foreground">
-          Marketplace Admin
+          Seeder
         </span>
       </span>
     </Link>
@@ -65,11 +63,11 @@ export function AppTopNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 h-14 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/90">
+    <header className="sticky top-0 z-40 h-16 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/90">
       <div className="mx-auto flex h-full w-full max-w-[1600px] items-center justify-between gap-6 px-4 sm:px-6 lg:px-10">
         <div className="flex min-w-0 items-center gap-6 lg:gap-10">
           <Brand />
-          <nav className="hidden h-14 items-stretch md:flex" aria-label="Primary navigation">
+          <nav className="hidden h-16 items-stretch md:flex" aria-label="Primary navigation">
             {NAV_ITEMS.map((item) => {
               const active = item.active(pathname);
               return (

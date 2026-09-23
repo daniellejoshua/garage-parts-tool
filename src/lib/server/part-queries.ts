@@ -26,6 +26,25 @@ export async function findPartsByVehicleModelId(modelId: bigint): Promise<
   });
 }
 
+export async function findAllParts() {
+  return prisma.parts.findMany({
+    include: {
+      compatibilities: {
+        orderBy: { vehicleModelId: "asc" },
+        include: {
+          vehicleModel: {
+            select: {
+              name: true,
+              brand: { select: { name: true } },
+            },
+          },
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
 export async function findPartById(rawId: string): Promise<
   | (Parts & {
       compatibilities: PartCompatibility[];
